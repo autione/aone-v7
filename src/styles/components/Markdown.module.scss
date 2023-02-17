@@ -1,0 +1,185 @@
+.content {
+  --accent: #fff281;
+  --shadow: #fff28166;
+  --soft-background: #fff28133;
+
+  width: 100%;
+  max-width: 100%;
+  word-wrap: break-word;
+
+  font-size: 1.15rem;
+
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  p,
+  pre {
+    padding: 0;
+    margin: 0;
+  }
+
+  h1 {
+    font-size: 1.9rem;
+  }
+
+  h2 {
+    font-size: 1.75rem;
+  }
+
+  h3 {
+    font-size: 1.425rem;
+  }
+
+  h4 {
+    font-size: 1.2rem;
+  }
+
+  p {
+    margin: 0.5rem 0;
+    color: #eaeaea;
+  }
+
+  blockquote {
+    border-left: 4px solid var(--shadow);
+
+    font-size: 1.25rem;
+    font-weight: 600;
+    font-style: italic;
+    color: var(--accent);
+
+    margin: 0;
+    padding: 0.4rem 1rem;
+    padding-left: 4rem;
+
+    min-height: 2.9rem; // icon size + vertical padding (2.5rem + 0.4rem)
+
+    position: relative;
+
+    & > * {
+      color: inherit;
+    }
+
+    & > p {
+      padding: 0;
+      margin: 0;
+    }
+
+    &::before {
+      content: "format_quote";
+      font-family: "Material Icons Sharp" !important;
+
+      font-size: 2.5rem;
+      position: absolute;
+      left: 0.6rem;
+      top: 0;
+
+      opacity: 0.75;
+    }
+  }
+
+  del {
+    opacity: 0.5;
+  }
+
+  table,
+  th,
+  td {
+    border: 1px solid var(--accent);
+    border-collapse: collapse;
+
+    padding: 0.25rem;
+  }
+
+  table > thead {
+    background-color: var(--soft-background);
+  }
+
+  code {
+    width: 100%;
+    overflow: auto;
+
+    white-space: nowrap;
+    word-wrap: anywhere;
+
+    background-color: #1d2021;
+    color: #ebdbb2;
+    padding: 0.75rem;
+
+    border-radius: 0.3rem;
+
+    font-size: 90%;
+
+    &.inlineCode {
+      font-size: 75%;
+      padding: 0.1rem 0.5rem;
+      border-radius: 0.2rem;
+    }
+  }
+
+  pre > code {
+    padding: unset;
+    background-color: inherit;
+  }
+
+  hr {
+    width: 100%;
+
+    border: none;
+    border-top: 3px dotted var(--shadow);
+  }
+
+  a {
+    color: var(--accent);
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  img {
+    width: 100%;
+    display: block;
+  }
+
+  .imageWrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    width: 75%;
+
+    margin: 1rem auto;
+
+    @media only screen and (max-width: 900px) {
+      & {
+        width: 100%;
+        margin: 1rem 0;
+      }
+    }
+
+    background-color: var(--shadow);
+    // box-shadow: 5px 5px 0 var(--shadow);
+
+    small {
+      padding: 0.5rem;
+      color: var(--accent);
+
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+
+      width: 100%;
+    }
+  }
+
+  ul {
+    padding: 0.5rem 1rem;
+    margin: 0;
+  }
+}

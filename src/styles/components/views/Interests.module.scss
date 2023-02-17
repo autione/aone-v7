@@ -1,0 +1,179 @@
+.row {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+
+  position: relative;
+
+  width: 100%;
+
+  @media only screen and (max-width: 780px) {
+    flex-direction: column;
+  }
+}
+
+.sectionButton {
+  --accent: #ff8181;
+  --transparent-accent: #ff818144;
+
+  cursor: pointer;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  width: 100%;
+
+  .icon {
+    font-size: 3rem;
+  }
+
+  font-size: 1.25rem;
+
+  padding: 0.75rem;
+
+  background-color: var(--transparent-accent);
+  color: var(--accent);
+
+  border: 5px solid var(--accent);
+
+  transition: box-shadow 0.3s;
+
+  box-shadow: 5px 5px 0 var(--transparent-accent);
+  &.noElevation {
+    box-shadow: none !important;
+  }
+
+  &:hover {
+    box-shadow: 7px 7px 0 var(--transparent-accent);
+  }
+
+  &:active {
+    box-shadow: 5px 5px 0 var(--transparent-accent);
+  }
+}
+
+.infoCard {
+  --accent: #ff8181;
+  --transparent-accent: #ff818133;
+  --background: #2e1616;
+
+  & > i::after {
+    content: "info";
+
+    user-select: none;
+
+    font-family: "Material Symbols Sharp";
+    font-style: normal;
+    font-size: 1rem;
+  }
+
+  .description {
+    pointer-events: none;
+
+    position: absolute;
+    width: 100%;
+
+    display: flex;
+    flex-direction: column;
+
+    .caption {
+      font-weight: normal;
+      font-size: 1.25rem;
+      text-align: center;
+
+      padding: 1rem;
+    }
+
+    .row {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+      flex-wrap: wrap;
+      padding: 1rem;
+
+      background-color: #ff818122;
+    }
+
+    left: 0;
+    bottom: -1rem;
+
+    z-index: 32768;
+
+    font-size: 1rem;
+    background-color: var(--background);
+    color: #fff;
+
+    border: 5px solid var(--accent);
+    // box-shadow: 5px 5px 0 var(--transparent-accent);
+    box-shadow: 0 10rem 5rem 5rem #000a;
+
+    transition: transform 0.3s, opacity 0.2s;
+    transform: translateY(90%);
+    opacity: 0;
+
+    ///
+
+    .subInfoCard {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+
+      font-size: 1.25rem;
+
+      background-color: var(--transparent-accent);
+      color: var(--accent);
+
+      // border: 5px solid var(--accent);
+
+      img {
+        width: 8rem;
+        aspect-ratio: 1;
+
+        padding: 0.5rem;
+
+        background-color: var(--transparent-accent);
+      }
+    }
+  }
+
+  &:hover > .description {
+    transform: translateY(100%);
+    opacity: 1;
+  }
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  width: 100%;
+
+  img {
+    width: 3rem;
+    aspect-ratio: 1;
+
+    padding: 0.5rem;
+
+    background-color: var(--transparent-accent);
+  }
+
+  label {
+    padding: 0.5rem;
+    width: 100%;
+    text-align: center;
+  }
+
+  font-size: 1.5rem;
+
+  background-color: var(--transparent-accent);
+  color: var(--accent);
+
+  border: 5px solid var(--accent);
+
+  transition: box-shadow 0.3s;
+
+  box-shadow: 5px 5px 0 var(--transparent-accent);
+}

@@ -1,0 +1,19 @@
+.list {
+  padding: 0;
+  padding-left: 1.25rem;
+
+  margin: 0;
+  margin-top: -0.5rem;
+
+  li {
+    color: #ad82ffaa;
+    &:not(:last-child) {
+      margin-bottom: 0.25rem;
+    }
+  }
+
+  label {
+    color: #fff;
+    font-weight: normal;
+  }
+}

@@ -1,0 +1,98 @@
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.postCard {
+  --accent: #fff281;
+  --transparent-accent: #fff28155;
+
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+
+  padding: 0.75rem;
+
+  border: 5px solid var(--accent);
+
+  transition: box-shadow 0.3s;
+
+  box-shadow: 5px 5px 0 var(--transparent-accent);
+
+  &:hover {
+    box-shadow: 7px 7px 0 var(--transparent-accent);
+  }
+
+  &:active {
+    box-shadow: 5px 5px 0 var(--transparent-accent);
+  }
+
+  & > i {
+    width: 5.5rem;
+    height: 5.5rem;
+    padding: 1rem;
+    background-color: var(--transparent-accent);
+    color: var(--accent);
+    aspect-ratio: 1;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    font-size: 3.5rem;
+  }
+
+  & > main {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+
+    width: 100%;
+
+    ul {
+      padding: 0;
+      margin: 0;
+
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+
+      li {
+        padding: 0;
+        margin: 0;
+
+        list-style: none;
+
+        display: flex;
+        align-items: center;
+        gap: 0.25rem;
+
+        font-size: 1rem;
+
+        i {
+          color: var(--accent);
+          line-height: 0;
+          font-size: 1.1rem;
+        }
+      }
+    }
+
+    .textContent {
+      display: flex;
+      flex-direction: column;
+
+      font-size: 1.25rem;
+      font-weight: 400;
+
+      .title {
+        font-size: 1.75rem;
+        font-weight: 600;
+
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+    }
+  }
+}

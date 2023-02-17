@@ -1,0 +1,116 @@
+.project {
+  --accent: #2eeba7;
+  --transparent-accent: #2eeba755;
+
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+
+  font-size: 1.25rem;
+  font-weight: normal;
+
+  & > img {
+    width: 5.5rem;
+    aspect-ratio: 1;
+  }
+
+  & > main {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+
+    width: 100%;
+
+    ul {
+      padding: 0;
+      margin: 0;
+
+      display: flex;
+      align-items: center;
+      gap: 0.25rem 1rem;
+      flex-wrap: wrap;
+
+      li {
+        padding: 0;
+        margin: 0;
+
+        list-style: none;
+
+        display: flex;
+        align-items: center;
+        gap: 0.25rem;
+
+        font-size: 1rem;
+        font-weight: 500;
+
+        & > span:not(:last-child)::after {
+          content: "•";
+          color: var(--accent);
+
+          margin-left: 0.25rem;
+        }
+
+        &.epochList > span:not(:last-child)::after {
+          content: "»";
+        }
+
+        i {
+          color: var(--accent);
+          line-height: 0;
+          font-size: 1.25rem;
+        }
+      }
+    }
+
+    .textContent {
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+
+      .title {
+        font-size: 1.85rem;
+        font-weight: 700;
+      }
+    }
+  }
+
+  .status {
+    --tint: #fff;
+
+    font-size: 1rem;
+    font-weight: bold;
+
+    color: var(--tint);
+
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+
+    &::before {
+      content: "•";
+
+      display: block;
+      width: 0.7rem;
+      height: 0.7rem;
+
+      border-radius: 100vw;
+
+      font-size: 0;
+
+      background-color: var(--tint);
+    }
+
+    &.s0 {
+      --tint: #4fff8f;
+    }
+    &.s1 {
+      --tint: #ffdf6f;
+    }
+    &.s2 {
+      --tint: #4fafff;
+    }
+    &.s3 {
+      --tint: #ff4f4f;
+    }
+  }
+}

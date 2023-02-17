@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 410 360">
+	<polygon fill="#111" points="145 345 145 123.79 36.21 15 275 15 275 215 395 215 395 345 145 345"/>
+	<path fill="#eee" d="M401,230V430H521V530H301V317.57l-8.79-8.78L213.43,230H401m30-30H141L271,330V560H551V400H431V200Z" transform="translate(-141 -200)"/>
+	<style>@media (prefers-color-scheme: light) { :root { filter: invert(); }}</style>
+</svg>
