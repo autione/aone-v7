@@ -21,13 +21,12 @@ import { OAuthService } from "../types";
 import { firebaseConfig } from "../config";
 
 import { initializeApp } from "firebase/app";
-import {
-  getAuth,
-  initializeAuth,
-  signInWithEmailAndPassword,
-} from "firebase/auth";
+import { getAuth, initializeAuth, signInWithEmailAndPassword } from "firebase/auth";
 import { doc, getDoc, getFirestore, setDoc } from "firebase/firestore";
 import IceCreamContent from "../components/views/IceCream";
+import { useModalsContext } from "../components/contexts/Modals";
+import Button from "../components/Button";
+import A90 from "../components/extras/A90";
 
 interface Props {
   status: {
@@ -48,27 +47,22 @@ interface Props {
 }
 
 export default function Home(props: Props) {
-  const version = "v7.2.2";
+  const version = "v7.2.3";
 
   const names = ["AutiOne", "Davi Rafael"];
   const [nameIndex, setNameIndex] = useState(0);
   const [name, setName] = useState(names[nameIndex]);
 
-  // const [typingHistory, setTypingHistory] = useState("");
-  const [features, setFeatures] = useState({
-    iceCreamWindow: false,
+  const [typingHistory, setTypingHistory] = useState("");
+  const [features, setFeatures] = useState<{ [key: string]: boolean }>({
+    iceCream: false,
+    senah: false,
+    aninety: false,
   });
-  const featureCodes = {
-    iceCream: [
-      "arrowup",
-      "arrowup",
-      "arrowdown",
-      "arrowdown",
-      "arrowleft",
-      "arrowright",
-      "arrowleft",
-      "arrowright",
-    ].join(""),
+  const featureCodes: { [key: string]: string } = {
+    iceCream: ["arrowup", "arrowup", "arrowdown", "arrowdown", "arrowleft", "arrowright", "arrowleft", "arrowright"].join(""),
+    senah: "senah",
+    aninety: "stop",
   };
 
   const [chipSwap, setChipSwap] = useState(false);
@@ -80,18 +74,27 @@ export default function Home(props: Props) {
   }, [chipSwap]);
 
   useEffect(() => {
-    let typingHistory = "";
     addEventListener("keydown", (e) => {
-      const newTypingHistory = typingHistory.concat(e.key.toLowerCase());
-      if (newTypingHistory.length > 128) typingHistory = "";
-      else typingHistory = newTypingHistory;
-
-      // setTypingHistory(typingHistory);
-
-      if (newTypingHistory.includes(featureCodes.iceCream))
-        setFeatures({ ...features, iceCreamWindow: true });
+      const s = e.key.toLowerCase();
+      setTypingHistory((prev) => {
+        console.log(prev);
+        return prev.concat(s);
+      });
     });
   }, []);
+
+  useEffect(() => {
+    if (typingHistory.length > 128) setTypingHistory("");
+
+    // setTypingHistory(typingHistory);
+
+    for (const featureKey in featureCodes) {
+      if (typingHistory.includes(featureCodes[featureKey])) {
+        setFeatures({ ...features, [featureKey]: true });
+        setTypingHistory("");
+      }
+    }
+  }, [typingHistory]);
 
   // const host = detect();
 
@@ -99,8 +102,7 @@ export default function Home(props: Props) {
     const chars = "!@#$%¨&*()Æ<©ÐŊµÞŁ®~?{}[]";
     const getChars = (len: number) => {
       let s = "";
-      for (let i = 0; i < len; i += 1)
-        s += chars[Math.floor(Math.random() * chars.length)];
+      for (let i = 0; i < len; i += 1) s += chars[Math.floor(Math.random() * chars.length)];
       return s;
     };
 
@@ -130,17 +132,14 @@ export default function Home(props: Props) {
     setName(newName);
   };
 
+  const modalsContext = useModalsContext();
+
   return (
     <>
       <div className={styles.container}>
         <header>
           <section>
-            <img
-              src="/logo-black.svg"
-              alt="AutiOne Logo"
-              className={styles.profilePicture}
-              onClick={swapName}
-            />
+            <img src="/logo-black.svg" alt="AutiOne Logo" className={styles.profilePicture} onClick={swapName} />
             <span className={styles.textContainer}>
               <span className={styles.title}>
                 <span className={styles.name}>{name}</span>
@@ -161,12 +160,7 @@ export default function Home(props: Props) {
                     </span>
                   </summary>
                 </details>
-                <details
-                  className={`${styles.chip} ${
-                    !props.status.discord.active ? styles.inactive : ""
-                  }`}
-                  title="Discord"
-                >
+                <details className={`${styles.chip} ${!props.status.discord.active ? styles.inactive : ""}`} title="Discord">
                   <summary>
                     <img src="/discord.svg" alt="Discord Logo" />
                     <span className={styles.labels}>
@@ -174,28 +168,13 @@ export default function Home(props: Props) {
                     </span>
                   </summary>
                 </details>
-                <details
-                  className={`${styles.chip} ${
-                    !props.status.spotify.active ? styles.inactive : ""
-                  }`}
-                  title="Spotify"
-                >
+                <details className={`${styles.chip} ${!props.status.spotify.active ? styles.inactive : ""}`} title="Spotify">
                   <summary>
                     <img src="/spotify.svg" alt="Spotify Logo" />
                     <Icon i={props.status.spotify.icon} />
-                    <span
-                      className={`${styles.labels} ${
-                        chipSwap ? styles.swap : ""
-                      } ${
-                        !props.status.spotify.static ? styles.allowSwap : ""
-                      }`}
-                    >
-                      <span title={props.status.spotify.text[0]}>
-                        {props.status.spotify.text[0]}
-                      </span>
-                      <span title={props.status.spotify.text[1]}>
-                        {props.status.spotify.text[1]}
-                      </span>
+                    <span className={`${styles.labels} ${chipSwap ? styles.swap : ""} ${!props.status.spotify.static ? styles.allowSwap : ""}`}>
+                      <span title={props.status.spotify.text[0]}>{props.status.spotify.text[0]}</span>
+                      <span title={props.status.spotify.text[1]}>{props.status.spotify.text[1]}</span>
                     </span>
                   </summary>
                 </details>
@@ -204,78 +183,75 @@ export default function Home(props: Props) {
           </section>
 
           <section className={styles.shortcuts}>
-            <a
-              href="#window-about"
-              className={styles.shortcut}
-              style={
-                { "--accent": "#9281ff", "--background": "#24203d" } as any
-              }
-            >
+            <a href="#window-about" className={styles.shortcut} style={{ "--accent": "#9281ff", "--background": "#24203d" } as any}>
               <Icon i="person" />
               <label>About</label>
             </a>
 
-            <a
-              href="#window-projects"
-              className={styles.shortcut}
-              style={
-                { "--accent": "#2eeba7", "--background": "#0e3426" } as any
-              }
-            >
+            <a href="#window-projects" className={styles.shortcut} style={{ "--accent": "#2eeba7", "--background": "#0e3426" } as any}>
               <Icon i="history_edu" />
               <label>Projects</label>
             </a>
 
-            <a
-              href="#window-socials"
-              className={styles.shortcut}
-              style={
-                { "--accent": "#fd467d", "--background": "#39101c" } as any
-              }
-            >
+            <a href="#window-socials" className={styles.shortcut} style={{ "--accent": "#fd467d", "--background": "#39101c" } as any}>
               <Icon i="forum" />
               <label>Socials</label>
             </a>
 
-            <a
-              href="#window-notes"
-              className={styles.shortcut}
-              style={
-                { "--accent": "#fff281", "--background": "#2e2b16" } as any
-              }
-            >
+            <a href="#window-notes" className={styles.shortcut} style={{ "--accent": "#fff281", "--background": "#2e2b16" } as any}>
               <Icon i="article" />
               <label>Notes</label>
             </a>
 
-            <a
-              href="#window-interests"
-              className={styles.shortcut}
-              style={
-                { "--accent": "#ff8181", "--background": "#2e1616" } as any
-              }
-            >
+            <a href="#window-interests" className={styles.shortcut} style={{ "--accent": "#ff8181", "--background": "#2e1616" } as any}>
               <Icon i="thumb_up" />
               <label>Interests</label>
             </a>
 
-            <a
-              href="#window-fellows"
-              className={styles.shortcut}
-              style={
-                { "--accent": "#ff81d4", "--background": "#351a2c" } as any
-              }
-            >
+            <a href="#window-fellows" className={styles.shortcut} style={{ "--accent": "#ff81d4", "--background": "#351a2c" } as any}>
               <Icon i="heart_plus" />
               <label>Fellows</label>
             </a>
 
             <a
               href="#window-changelog"
+              onContextMenu={(e) => {
+                e.preventDefault();
+                modalsContext.show(
+                  {
+                    title: "Features",
+                    icon: <Icon i="build" />,
+                    content: (
+                      <>
+                        <div
+                          style={{
+                            display: "grid",
+                            gridTemplateColumns: "1fr 1fr",
+                            width: "100%",
+                            gap: "1rem",
+                          }}
+                        >
+                          {Object.keys(featureCodes).map((code) => (
+                            <Button
+                              colors={["#ad82ff", "#26193d"]}
+                              fullWidth
+                              onClick={() => {
+                                setFeatures({ ...features, [code]: !features[code] });
+                              }}
+                              key={`${code}-feat`}
+                            >
+                              {code}
+                            </Button>
+                          ))}
+                        </div>
+                      </>
+                    ),
+                  },
+                  { accent: "#ad82ff", background: "#26193d" }
+                );
+              }}
               className={styles.shortcut}
-              style={
-                { "--accent": "#ad82ff", "--background": "#26193d" } as any
-              }
+              style={{ "--accent": "#ad82ff", "--background": "#26193d" } as any}
             >
               <Icon i="build" />
               <label>Changelog</label>
@@ -299,15 +275,39 @@ export default function Home(props: Props) {
           </section>
         )} */}
 
+        {features.senah && (
+          <div className={styles.senah}>
+            <img src="images/senah.png" alt="Senah!!!" />
+            <audio
+              src="vine-boom.mp3"
+              autoPlay
+              onEnded={() => {
+                setFeatures({
+                  ...features,
+                  senah: false,
+                });
+              }}
+            />
+          </div>
+        )}
+        {features.aninety && (
+          <A90
+            end={() => {
+              setFeatures({
+                ...features,
+                aninety: false,
+              });
+            }}
+          />
+        )}
+
         <noscript>
           <section className={styles.notice}>
             <h1>
               <Icon i="warning" /> Your experience might be affected
             </h1>
-            It looks like you don&apos;t have JavaScript enabled in your
-            browser. While this won&apos;t make the site inacessible, some
-            features might not work properly with it disabled. Feel free to
-            continue here without enabling JavaScript too.
+            It looks like you don&apos;t have JavaScript enabled in your browser. While this won&apos;t make the site inacessible, some features might not work
+            properly with it disabled. Feel free to continue here without enabling JavaScript too.
           </section>
         </noscript>
 
@@ -363,7 +363,7 @@ export default function Home(props: Props) {
               <ProjectsContent />
             </Window>
 
-            {features.iceCreamWindow && (
+            {features.iceCream && (
               <Window
                 colors={{
                   accent: "#fcdca4",
@@ -459,22 +459,14 @@ export default function Home(props: Props) {
 
             <span>
               Interface icons by Google&apos;s Material Symbols under{" "}
-              <a
-                href="https://www.apache.org/licenses/LICENSE-2.0"
-                target="_blank"
-                rel="noreferrer"
-              >
+              <a href="https://www.apache.org/licenses/LICENSE-2.0" target="_blank" rel="noreferrer">
                 Apache License 2.0
               </a>
             </span>
             <br />
             <span>
               Branding icons by{" "}
-              <a
-                href="https://simpleicons.org/"
-                target="_blank"
-                rel="noreferrer"
-              >
+              <a href="https://simpleicons.org/" target="_blank" rel="noreferrer">
                 SimpleIcons
               </a>{" "}
               with logos being property of their respective owners
@@ -503,10 +495,7 @@ export default function Home(props: Props) {
 }
 
 export async function getServerSideProps(context: NextPageContext) {
-  context.res?.setHeader(
-    "Cache-Control",
-    "public, s-maxage=120, stale-while-revalidate=59"
-  );
+  context.res?.setHeader("Cache-Control", "public, s-maxage=120, stale-while-revalidate=59");
 
   const firebase = initializeApp(firebaseConfig);
   const db = getFirestore(firebase);
@@ -531,11 +520,7 @@ export async function getServerSideProps(context: NextPageContext) {
 
   // Spot-spottie-spotify
   try {
-    await signInWithEmailAndPassword(
-      authProvider,
-      String(process.env.FLAKE_USER),
-      String(process.env.FLAKE_PASS)
-    );
+    await signInWithEmailAndPassword(authProvider, String(process.env.FLAKE_USER), String(process.env.FLAKE_PASS));
 
     const ref = doc(db, "oauth-services", "spotify");
     const snap = await getDoc(ref);
@@ -551,20 +536,13 @@ export async function getServerSideProps(context: NextPageContext) {
           };
 
           const formBody = [];
-          for (const property in bodyData)
-            formBody.push(
-              `${encodeURIComponent(property)}=${encodeURIComponent(
-                bodyData[property]
-              )}`
-            );
+          for (const property in bodyData) formBody.push(`${encodeURIComponent(property)}=${encodeURIComponent(bodyData[property])}`);
 
           const res = await fetch("https://accounts.spotify.com/api/token", {
             method: "POST",
             headers: {
               "content-type": "application/x-www-form-urlencoded;charset=UTF-8",
-              authorization: `Basic ${Buffer.from(
-                `${process.env.SPOTIFY_OAUTH_CLIENT_ID}:${process.env.SPOTIFY_OAUTH_CLIENT_SECRET}`
-              ).toString("base64")}`,
+              authorization: `Basic ${Buffer.from(`${process.env.SPOTIFY_OAUTH_CLIENT_ID}:${process.env.SPOTIFY_OAUTH_CLIENT_SECRET}`).toString("base64")}`,
             },
             body: formBody.join("&"),
           });
@@ -628,12 +606,7 @@ export async function getServerSideProps(context: NextPageContext) {
         } else {
           spotifyServiceAction.status =
             data.currently_playing_type === "track"
-              ? [
-                  `${data.item.artists
-                    .map((artist: any) => artist.name)
-                    .join(", ")} - ${data.item.name}`,
-                  `in "${data.item.album.name}"`,
-                ]
+              ? [`${data.item.artists.map((artist: any) => artist.name).join(", ")} - ${data.item.name}`, `in "${data.item.album.name}"`]
               : ["Listening to a podcast", ""];
           spotifyServiceAction.icon = data.is_playing ? "play_arrow" : "pause";
           spotifyServiceAction.sourceId = data.item?.id || false;
@@ -647,10 +620,7 @@ export async function getServerSideProps(context: NextPageContext) {
         spotifyServiceAction.status = ["No sessions active", ""];
         spotifyServiceAction.icon = "power_off";
       } else {
-        console.error(
-          "Spotify data fetch returned error code",
-          await res.text()
-        );
+        console.error("Spotify data fetch returned error code", await res.text());
         spotifyServiceAction.status = ["Request error code", ""];
       }
     } catch (err) {
@@ -686,13 +656,8 @@ export async function getServerSideProps(context: NextPageContext) {
       status: {
         discord: discordServiceAction,
         spotify: {
-          static: spotifyServiceAction.local
-            ? false
-            : !spotifyServiceAction.sourceId || !spotifyServiceAction.status[1],
-          active:
-            !spotifyServiceAction.abort && spotifyServiceAction.local
-              ? true
-              : !!spotifyServiceAction.sourceId,
+          static: spotifyServiceAction.local ? false : !spotifyServiceAction.sourceId || !spotifyServiceAction.status[1],
+          active: !spotifyServiceAction.abort && spotifyServiceAction.local ? true : !!spotifyServiceAction.sourceId,
           text: spotifyServiceAction.status,
           icon: spotifyServiceAction.icon,
           id: spotifyServiceAction.sourceId,

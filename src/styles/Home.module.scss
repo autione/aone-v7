@@ -10,6 +10,45 @@
   pointer-events: none;
 }
 
+.senah {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  position: fixed;
+
+  left: 0;
+  top: 0;
+
+  width: 100%;
+  height: 100%;
+
+  background-color: #fff;
+
+  z-index: 99999;
+
+  animation-name: boom;
+  animation-duration: 1.25s;
+  animation-timing-function: linear;
+  animation-fill-mode: forwards;
+
+  pointer-events: none;
+
+  img {
+    height: 100%;
+  }
+}
+
+@keyframes boom {
+  0% {
+    opacity: 0.5;
+  }
+
+  100% {
+    opacity: 0;
+  }
+}
+
 .container {
   display: flex;
   flex-direction: column;
@@ -81,13 +120,7 @@
         width: 100%;
         height: 100%;
 
-        background: repeating-linear-gradient(
-          -45deg,
-          var(--accent) 0,
-          var(--accent) 8px,
-          #0000 8px,
-          #0000 16px
-        );
+        background: repeating-linear-gradient(-45deg, var(--accent) 0, var(--accent) 8px, #0000 8px, #0000 16px);
         background-size: 200% 200%;
 
         opacity: 0;
@@ -450,14 +483,7 @@ small.copyright {
 
   width: 100%;
 
-  background: repeating-linear-gradient(
-      -45deg,
-      var(--stripe-tint) 0,
-      var(--stripe-tint) 8px,
-      #0000 8px,
-      #0000 16px
-    ),
-    var(--background);
+  background: repeating-linear-gradient(-45deg, var(--stripe-tint) 0, var(--stripe-tint) 8px, #0000 8px, #0000 16px), var(--background);
 
   display: flex;
   flex-direction: column;
@@ -642,8 +668,7 @@ small.copyright {
 
   position: absolute;
 
-  background: linear-gradient(0deg, var(--overlay-color), var(--overlay-color)),
-    var(--grad), #000;
+  background: linear-gradient(0deg, var(--overlay-color), var(--overlay-color)), var(--grad), #000;
 
   z-index: 2;
 }
@@ -679,7 +704,7 @@ small.copyright {
   }
 }
 
-@media only screen and (max-width: 1460px) {
+@media only screen and (max-width: 1560px) {
   .container > main {
     grid-template-columns: 1fr 1fr;
   }
