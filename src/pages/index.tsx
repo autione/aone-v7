@@ -244,6 +244,14 @@ export default function Home(props: Props) {
                             </Button>
                           ))}
                         </div>
+
+                        <section className={styles.notice} style={{ backgroundColor: "#ff4f6f66" }}>
+                          <h1>
+                            <Icon i="warning" /> Content notice
+                          </h1>
+                          Some features/easter eggs might have loud noises and slightly scary content. It&apos;s nothing too graphical or violent, but I think
+                          it&apos;s worth noting.
+                        </section>
                       </>
                     ),
                   },

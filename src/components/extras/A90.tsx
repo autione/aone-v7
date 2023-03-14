@@ -101,6 +101,7 @@ export default function A90({ end }: { end: () => void }) {
             if (target.currentTime >= 1.976461 && state < 10) {
               setState(10);
               setAudioSource(2);
+              // end();
             }
           }}
         />
@@ -143,7 +144,7 @@ export default function A90({ end }: { end: () => void }) {
           {state >= 6 ? (
             <img
               src="images/a90/screaming.png"
-              className={styles.screaming}
+              className={`${styles.screaming} ${state >= 7 ? styles.incoming : ""}`}
               style={{ left: `${pos[0]}%`, top: `${pos[1]}%`, opacity: state === 7 || state === 9 ? 0 : 1 }}
               alt="A-90 Screaming"
             />
@@ -157,7 +158,7 @@ export default function A90({ end }: { end: () => void }) {
           )}
           <img
             src="images/a90/block.png"
-            className={styles.zoom}
+            className={styles.stopSign}
             style={{ left: `${pos[0]}%`, top: `${pos[1]}%`, opacity: state === 2 ? 1 : 0 }}
             alt="A-90 Block"
           />
