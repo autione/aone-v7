@@ -1,10 +1,5 @@
-// Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import { initializeApp } from "firebase/app";
-import {
-  getAuth,
-  initializeAuth,
-  signInWithEmailAndPassword,
-} from "firebase/auth";
+import { getAuth, initializeAuth, signInWithEmailAndPassword } from "firebase/auth";
 import { deleteDoc, doc, getFirestore, updateDoc } from "firebase/firestore";
 
 import type { NextApiRequest, NextApiResponse } from "next";
@@ -17,10 +12,7 @@ type Data = {
   id?: string;
 };
 
-export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse<Data>
-) {
+export default async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
   if (req.method !== "DELETE" && req.method !== "PUT")
     return res.status(405).json({
       success: false,
@@ -42,11 +34,7 @@ export default async function handler(
   initializeAuth(firebase);
   const authProvider = getAuth();
   try {
-    await signInWithEmailAndPassword(
-      authProvider,
-      String(process.env.NOTES_USER_LOGIN),
-      auth
-    );
+    await signInWithEmailAndPassword(authProvider, String(process.env.NOTES_USER_LOGIN), auth);
 
     const id = String(req.query.id);
     const ref = doc(db, "notes", id);
@@ -59,10 +47,11 @@ export default async function handler(
             error: "MALFORMED_BODY",
           });
 
-        const { title, description, content } = req.body as {
+        const { title, description, content, hidden } = req.body as {
           title: string;
           description: string;
           content: string;
+          hidden?: boolean;
         };
 
         try {
@@ -70,6 +59,7 @@ export default async function handler(
             title,
             description,
             content,
+            hidden,
           });
         } catch (err) {
           console.error("Failed to edit post:", err);

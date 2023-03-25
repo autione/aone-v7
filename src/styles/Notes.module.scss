@@ -203,6 +203,9 @@
   }
 
   textarea {
+    font-family: "JetBrains Mono", sans-serif;
+    font-size: 1rem !important;
+
     background-color: #fff2;
     resize: vertical;
     min-height: 100%;
@@ -485,4 +488,14 @@
   .postGrid {
     grid-template-columns: 1fr;
   }
+}
+
+.buttonActions {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+
+  width: 100%;
 }

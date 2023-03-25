@@ -17,12 +17,12 @@ import ChangelogContent from "../components/views/Changelog";
 
 import styles from "../styles/Home.module.scss";
 
-import { OAuthService } from "../types";
+import { OAuthService, Post } from "../types";
 import { firebaseConfig } from "../config";
 
 import { initializeApp } from "firebase/app";
 import { getAuth, initializeAuth, signInWithEmailAndPassword } from "firebase/auth";
-import { doc, getDoc, getFirestore, setDoc } from "firebase/firestore";
+import { collection, doc, getDoc, getDocs, getFirestore, orderBy, query, setDoc } from "firebase/firestore";
 import IceCreamContent from "../components/views/IceCream";
 import { useModalsContext } from "../components/contexts/Modals";
 import Button from "../components/Button";
@@ -44,6 +44,10 @@ interface Props {
       timestring: string;
     };
   };
+  posts: {
+    success: boolean;
+    data: Post[];
+  };
 }
 
 export default function Home(props: Props) {
@@ -58,11 +62,22 @@ export default function Home(props: Props) {
     iceCream: false,
     senah: false,
     aninety: false,
+    anoventa: false,
   });
   const featureCodes: { [key: string]: string } = {
-    iceCream: ["arrowup", "arrowup", "arrowdown", "arrowdown", "arrowleft", "arrowright", "arrowleft", "arrowright"].join(""),
+    iceCream: [
+      "arrowup",
+      "arrowup",
+      "arrowdown",
+      "arrowdown",
+      "arrowleft",
+      "arrowright",
+      "arrowleft",
+      "arrowright",
+    ].join(""),
     senah: "senah",
     aninety: "stop",
+    anoventa: "pare",
   };
 
   const [chipSwap, setChipSwap] = useState(false);
@@ -160,7 +175,10 @@ export default function Home(props: Props) {
                     </span>
                   </summary>
                 </details>
-                <details className={`${styles.chip} ${!props.status.discord.active ? styles.inactive : ""}`} title="Discord">
+                <details
+                  className={`${styles.chip} ${!props.status.discord.active ? styles.inactive : ""}`}
+                  title="Discord"
+                >
                   <summary>
                     <img src="/discord.svg" alt="Discord Logo" />
                     <span className={styles.labels}>
@@ -168,11 +186,18 @@ export default function Home(props: Props) {
                     </span>
                   </summary>
                 </details>
-                <details className={`${styles.chip} ${!props.status.spotify.active ? styles.inactive : ""}`} title="Spotify">
+                <details
+                  className={`${styles.chip} ${!props.status.spotify.active ? styles.inactive : ""}`}
+                  title="Spotify"
+                >
                   <summary>
                     <img src="/spotify.svg" alt="Spotify Logo" />
                     <Icon i={props.status.spotify.icon} />
-                    <span className={`${styles.labels} ${chipSwap ? styles.swap : ""} ${!props.status.spotify.static ? styles.allowSwap : ""}`}>
+                    <span
+                      className={`${styles.labels} ${chipSwap ? styles.swap : ""} ${
+                        !props.status.spotify.static ? styles.allowSwap : ""
+                      }`}
+                    >
                       <span title={props.status.spotify.text[0]}>{props.status.spotify.text[0]}</span>
                       <span title={props.status.spotify.text[1]}>{props.status.spotify.text[1]}</span>
                     </span>
@@ -183,32 +208,56 @@ export default function Home(props: Props) {
           </section>
 
           <section className={styles.shortcuts}>
-            <a href="#window-about" className={styles.shortcut} style={{ "--accent": "#9281ff", "--background": "#24203d" } as any}>
+            <a
+              href="#window-about"
+              className={styles.shortcut}
+              style={{ "--accent": "#9281ff", "--background": "#24203d" } as any}
+            >
               <Icon i="person" />
               <label>About</label>
             </a>
 
-            <a href="#window-projects" className={styles.shortcut} style={{ "--accent": "#2eeba7", "--background": "#0e3426" } as any}>
+            <a
+              href="#window-projects"
+              className={styles.shortcut}
+              style={{ "--accent": "#2eeba7", "--background": "#0e3426" } as any}
+            >
               <Icon i="history_edu" />
               <label>Projects</label>
             </a>
 
-            <a href="#window-socials" className={styles.shortcut} style={{ "--accent": "#fd467d", "--background": "#39101c" } as any}>
+            <a
+              href="#window-socials"
+              className={styles.shortcut}
+              style={{ "--accent": "#fd467d", "--background": "#39101c" } as any}
+            >
               <Icon i="forum" />
               <label>Socials</label>
             </a>
 
-            <a href="#window-notes" className={styles.shortcut} style={{ "--accent": "#fff281", "--background": "#2e2b16" } as any}>
+            <a
+              href="#window-notes"
+              className={styles.shortcut}
+              style={{ "--accent": "#fff281", "--background": "#2e2b16" } as any}
+            >
               <Icon i="article" />
               <label>Notes</label>
             </a>
 
-            <a href="#window-interests" className={styles.shortcut} style={{ "--accent": "#ff8181", "--background": "#2e1616" } as any}>
+            <a
+              href="#window-interests"
+              className={styles.shortcut}
+              style={{ "--accent": "#ff8181", "--background": "#2e1616" } as any}
+            >
               <Icon i="thumb_up" />
               <label>Interests</label>
             </a>
 
-            <a href="#window-fellows" className={styles.shortcut} style={{ "--accent": "#ff81d4", "--background": "#351a2c" } as any}>
+            <a
+              href="#window-fellows"
+              className={styles.shortcut}
+              style={{ "--accent": "#ff81d4", "--background": "#351a2c" } as any}
+            >
               <Icon i="heart_plus" />
               <label>Fellows</label>
             </a>
@@ -249,8 +298,8 @@ export default function Home(props: Props) {
                           <h1>
                             <Icon i="warning" /> Content notice
                           </h1>
-                          Some features/easter eggs might have loud noises and slightly scary content. It&apos;s nothing too graphical or violent, but I think
-                          it&apos;s worth noting.
+                          Some features/easter eggs might have loud noises and slightly scary content. It&apos;s nothing
+                          too graphical or violent, but I think it&apos;s worth noting.
                         </section>
                       </>
                     ),
@@ -300,10 +349,22 @@ export default function Home(props: Props) {
         )}
         {features.aninety && (
           <A90
+            brazilMode={false}
             end={() => {
               setFeatures({
                 ...features,
                 aninety: false,
+              });
+            }}
+          />
+        )}
+        {features.anoventa && (
+          <A90
+            brazilMode={true}
+            end={() => {
+              setFeatures({
+                ...features,
+                anoventa: false,
               });
             }}
           />
@@ -314,8 +375,9 @@ export default function Home(props: Props) {
             <h1>
               <Icon i="warning" /> Your experience might be affected
             </h1>
-            It looks like you don&apos;t have JavaScript enabled in your browser. While this won&apos;t make the site inacessible, some features might not work
-            properly with it disabled. Feel free to continue here without enabling JavaScript too.
+            It looks like you don&apos;t have JavaScript enabled in your browser. While this won&apos;t make the site
+            inacessible, some features might not work properly with it disabled. Feel free to continue here without
+            enabling JavaScript too.
           </section>
         </noscript>
 
@@ -342,7 +404,12 @@ export default function Home(props: Props) {
               title="Notes"
               id="notes"
             >
-              <NotesContent />
+              <NotesContent posts={props.posts.data} />
+              {!props.posts.success && (
+                <p>
+                  An error ocurred while fetching the posts. This is a server-side fault, so please report this to me.
+                </p>
+              )}
             </Window>
 
             <Window
@@ -503,7 +570,7 @@ export default function Home(props: Props) {
 }
 
 export async function getServerSideProps(context: NextPageContext) {
-  context.res?.setHeader("Cache-Control", "public, s-maxage=120, stale-while-revalidate=59");
+  context.res?.setHeader("Cache-Control", "public, s-maxage=60, stale-while-revalidate=59");
 
   const firebase = initializeApp(firebaseConfig);
   const db = getFirestore(firebase);
@@ -526,6 +593,11 @@ export async function getServerSideProps(context: NextPageContext) {
     avatarURL: "",
   };
 
+  const postServiceAction: { success: boolean; data: Post[] } = {
+    success: false,
+    data: [],
+  };
+
   // Spot-spottie-spotify
   try {
     await signInWithEmailAndPassword(authProvider, String(process.env.FLAKE_USER), String(process.env.FLAKE_PASS));
@@ -544,13 +616,16 @@ export async function getServerSideProps(context: NextPageContext) {
           };
 
           const formBody = [];
-          for (const property in bodyData) formBody.push(`${encodeURIComponent(property)}=${encodeURIComponent(bodyData[property])}`);
+          for (const property in bodyData)
+            formBody.push(`${encodeURIComponent(property)}=${encodeURIComponent(bodyData[property])}`);
 
           const res = await fetch("https://accounts.spotify.com/api/token", {
             method: "POST",
             headers: {
               "content-type": "application/x-www-form-urlencoded;charset=UTF-8",
-              authorization: `Basic ${Buffer.from(`${process.env.SPOTIFY_OAUTH_CLIENT_ID}:${process.env.SPOTIFY_OAUTH_CLIENT_SECRET}`).toString("base64")}`,
+              authorization: `Basic ${Buffer.from(
+                `${process.env.SPOTIFY_OAUTH_CLIENT_ID}:${process.env.SPOTIFY_OAUTH_CLIENT_SECRET}`
+              ).toString("base64")}`,
             },
             body: formBody.join("&"),
           });
@@ -614,7 +689,10 @@ export async function getServerSideProps(context: NextPageContext) {
         } else {
           spotifyServiceAction.status =
             data.currently_playing_type === "track"
-              ? [`${data.item.artists.map((artist: any) => artist.name).join(", ")} - ${data.item.name}`, `in "${data.item.album.name}"`]
+              ? [
+                  `${data.item.artists.map((artist: any) => artist.name).join(", ")} - ${data.item.name}`,
+                  `in "${data.item.album.name}"`,
+                ]
               : ["Listening to a podcast", ""];
           spotifyServiceAction.icon = data.is_playing ? "play_arrow" : "pause";
           spotifyServiceAction.sourceId = data.item?.id || false;
@@ -659,12 +737,32 @@ export async function getServerSideProps(context: NextPageContext) {
     discordServiceAction.text = "Fetch error";
   }
 
+  // Notes
+  try {
+    const ref = query(collection(db, "notes"), orderBy("created_at", "desc"));
+    const snap = await getDocs(ref);
+
+    let data: Post[] = [];
+    snap.forEach((e) => {
+      const info = e.data() as Post;
+      if (!info.hidden) data.push({ ...info, id: e.id });
+    });
+
+    postServiceAction.success = true;
+    postServiceAction.data = data;
+  } catch (err) {
+    console.error("Failed to load posts:", err);
+    postServiceAction.success = false;
+  }
+
   return {
     props: {
       status: {
         discord: discordServiceAction,
         spotify: {
-          static: spotifyServiceAction.local ? false : !spotifyServiceAction.sourceId || !spotifyServiceAction.status[1],
+          static: spotifyServiceAction.local
+            ? false
+            : !spotifyServiceAction.sourceId || !spotifyServiceAction.status[1],
           active: !spotifyServiceAction.abort && spotifyServiceAction.local ? true : !!spotifyServiceAction.sourceId,
           text: spotifyServiceAction.status,
           icon: spotifyServiceAction.icon,
@@ -675,6 +773,7 @@ export async function getServerSideProps(context: NextPageContext) {
           }),
         },
       },
+      posts: { ...postServiceAction },
     },
   };
 }

@@ -44,41 +44,28 @@
     &.zoom {
       width: 15rem;
       height: 15rem;
-
-      animation-name: shake;
-      animation-duration: 0.01s;
-      animation-timing-function: step-end;
-      animation-fill-mode: forwards;
-      animation-iteration-count: infinite;
     }
 
     &.stopSign {
       width: 18rem;
       height: 18rem;
-
-      animation-name: shake;
-      animation-duration: 0.01s;
-      animation-timing-function: step-end;
-      animation-fill-mode: forwards;
-      animation-iteration-count: infinite;
     }
 
     &.screaming {
-      width: calc(100vh - 20rem);
-      height: calc(100vh - 20rem);
+      width: calc(100vh - 10vw);
+      height: calc(100vh - 10vw);
 
       animation-name: shake;
       animation-duration: 0.1s;
       animation-timing-function: step-start;
       animation-fill-mode: forwards;
       animation-iteration-count: infinite;
-
-      transition: width 0.075s linear, height 0.075s linear;
     }
 
     &.incoming {
-      width: calc(100vh + 20rem) !important;
-      height: calc(100vh + 20rem) !important;
+      width: calc(100vh + 10vw) !important;
+      height: calc(100vh + 10vw) !important;
+      transition: width 0.075s linear, height 0.075s linear;
     }
 
     position: fixed;
@@ -146,7 +133,7 @@
   user-select: none;
 
   color: #fff99f;
-  font-size: 3.5rem;
+  font-size: 3.5vw;
   text-align: center;
   font-family: "Quicksand", Inter, sans-serif;
 
@@ -163,7 +150,7 @@
 
     width: 60%;
 
-    transition: opacity 0.3s;
+    transition: opacity 0.2s;
     opacity: 1;
 
     &.hide {

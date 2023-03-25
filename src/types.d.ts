@@ -9,6 +9,7 @@ export interface Post {
   title: string;
   description?: string;
   content: string;
+  hidden?: boolean;
 }
 
 export interface Project {

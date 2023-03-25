@@ -34,6 +34,7 @@ export default function Edit(props: Props) {
   const EditContent = ({ mode }: { mode: "edit" | "delete" }) => {
     const [password, setPassword] = useState("");
     const [disabled, setDisabled] = useState(false);
+    const [hidden, setHidden] = useState(props.post?.hidden || false);
 
     return (
       <div className={styles.infoContent}>
@@ -47,14 +48,13 @@ export default function Edit(props: Props) {
           />
         </section>
 
-        <Button
-          colors={mode === "delete" ? ["#ff4f4f", "#ff4f4f22"] : undefined}
-          disabled={disabled}
-          onClick={() => {
-            setDisabled(true);
+        {mode === "edit" ? (
+          <div className={styles.buttonActions}>
+            <Button
+              disabled={disabled}
+              onClick={() => {
+                setDisabled(true);
 
-            switch (mode) {
-              case "edit": {
                 fetch(`/api/notes/${props.post?.id}`, {
                   method: "PUT",
                   headers: {
@@ -65,6 +65,7 @@ export default function Edit(props: Props) {
                     title,
                     description,
                     content,
+                    hidden,
                   }),
                 })
                   .then((r) => r.json())
@@ -100,73 +101,76 @@ export default function Edit(props: Props) {
                       title: "Edit » Failed",
                       content: (
                         <>
-                          <p>
-                            A fetch error occurred while editing. Check console
-                            for more details.
-                          </p>
+                          <p>A fetch error occurred while editing. Check console for more details.</p>
                         </>
                       ),
                     });
                   });
+              }}
+              fullWidth
+            >
+              Edit note
+            </Button>
 
-                break;
-              }
-
-              case "delete": {
-                fetch(`/api/notes/${props.post?.id}`, {
-                  method: "DELETE",
-                  headers: {
-                    authorization: password,
-                  },
-                })
-                  .then((r) => r.json())
-                  .then((data) => {
-                    if (!data.success) {
-                      console.error(data);
-                      return modalsContext.data.set({
-                        icon: <Icon i="delete" />,
-                        title: "Delete » Failed",
-                        content: (
-                          <>
-                            <p>
-                              Server returned an error: {data.error}.
-                              {data.message && (
-                                <>
-                                  <br />
-                                  Message: {data.message}
-                                </>
-                              )}
-                            </p>
-                          </>
-                        ),
-                      });
-                    }
-
-                    router.push("/");
-                    modalsContext.visible.set(false);
-                  })
-                  .catch((err) => {
-                    console.error("Failed to request delete", err);
-                    modalsContext.data.set({
+            <Button disabled={disabled} onClick={() => setHidden(!hidden)} fullWidth>
+              <Icon i={hidden ? "lock" : "public"} />
+              {hidden ? "Private" : "Public"}
+            </Button>
+          </div>
+        ) : (
+          <Button
+            fullWidth
+            colors={["#ff4f4f", "#ff4f4f22"]}
+            onClick={() => {
+              fetch(`/api/notes/${props.post?.id}`, {
+                method: "DELETE",
+                headers: {
+                  authorization: password,
+                },
+              })
+                .then((r) => r.json())
+                .then((data) => {
+                  if (!data.success) {
+                    console.error(data);
+                    return modalsContext.data.set({
                       icon: <Icon i="delete" />,
                       title: "Delete » Failed",
                       content: (
                         <>
                           <p>
-                            A fetch error occurred while deleting. Check console
-                            for more details.
+                            Server returned an error: {data.error}.
+                            {data.message && (
+                              <>
+                                <br />
+                                Message: {data.message}
+                              </>
+                            )}
                           </p>
                         </>
                       ),
                     });
+                  }
+
+                  router.push("/");
+                  modalsContext.visible.set(false);
+                })
+                .catch((err) => {
+                  console.error("Failed to request delete", err);
+                  modalsContext.data.set({
+                    icon: <Icon i="delete" />,
+                    title: "Delete » Failed",
+                    content: (
+                      <>
+                        <p>A fetch error occurred while deleting. Check console for more details.</p>
+                      </>
+                    ),
                   });
-              }
-            }
-          }}
-          fullWidth
-        >
-          Authorize and {mode === "edit" ? "edit" : "delete"}
-        </Button>
+                });
+            }}
+          >
+            Delete note
+          </Button>
+        )}
       </div>
     );
   };
@@ -184,22 +188,13 @@ export default function Edit(props: Props) {
               Views <li />
             </b>
             <span>
-              <button
-                onClick={() => setViews([true, false])}
-                className={views[0] && !views[1] ? styles.selected : ""}
-              >
+              <button onClick={() => setViews([true, false])} className={views[0] && !views[1] ? styles.selected : ""}>
                 <Icon i="edit" />
               </button>
-              <button
-                onClick={() => setViews([false, true])}
-                className={views[1] && !views[0] ? styles.selected : ""}
-              >
+              <button onClick={() => setViews([false, true])} className={views[1] && !views[0] ? styles.selected : ""}>
                 <Icon i="visibility" />
               </button>
-              <button
-                onClick={() => setViews([true, true])}
-                className={views[0] && views[1] ? styles.selected : ""}
-              >
+              <button onClick={() => setViews([true, true])} className={views[0] && views[1] ? styles.selected : ""}>
                 <Icon i="vertical_split" />
               </button>
             </span>
@@ -283,18 +278,11 @@ export default function Edit(props: Props) {
       </header>
 
       <main
-        className={`${styles.writeView} ${
-          (views[0] && !views[1]) || (views[1] && !views[0])
-            ? styles.single
-            : ""
-        }`}
+        className={`${styles.writeView} ${(views[0] && !views[1]) || (views[1] && !views[0]) ? styles.single : ""}`}
       >
         {views[0] && (
           <>
-            <textarea
-              value={content}
-              onChange={(e) => setContent(e.target.value)}
-            />
+            <textarea value={content} onChange={(e) => setContent(e.target.value)} />
           </>
         )}
 
@@ -311,10 +299,7 @@ export default function Edit(props: Props) {
 }
 
 export async function getServerSideProps(context: NextPageContext) {
-  context.res?.setHeader(
-    "Cache-Control",
-    "public, s-maxage=120, stale-while-revalidate=59"
-  );
+  context.res?.setHeader("Cache-Control", "public, s-maxage=60, stale-while-revalidate=59");
 
   let post: Post | null = null;
   let status: string[] | null = null;
@@ -348,20 +333,10 @@ export async function getServerSideProps(context: NextPageContext) {
 
   if (!snap.exists()) {
     console.error("Post not found");
-    status = [
-      "Post not found",
-      "Check if the ID is valid and if the post actually exists.",
-    ];
+    status = ["Post not found", "Check if the ID is valid and if the post actually exists."];
   } else {
-    const data = snap.data();
-    const parsed = {
-      id,
-      title: data.title,
-      description: data.description,
-      content: data.content,
-      created_at: data.created_at,
-    };
-    post = parsed || null;
+    const data = snap.data() as Post;
+    post = data || null;
   }
 
   return {

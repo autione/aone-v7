@@ -1,8 +1,8 @@
 /* eslint-disable @next/next/no-img-element */
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import styles from "../../styles/components/extras/A90.module.scss";
 
-export default function A90({ end }: { end: () => void }) {
+export default function A90({ end, brazilMode }: { end: () => void; brazilMode: boolean }) {
   const [pos, setPos] = useState([0, 0]);
   const [state, setState] = useState(-1);
 
@@ -10,17 +10,31 @@ export default function A90({ end }: { end: () => void }) {
 
   const [hasMoved, setHasMoved] = useState(false);
 
-  const messages = [
-    "Oh... Hello.",
-    "I'm surprised you found this place.",
-    "It's pretty tedious just to get here, last time I checked.",
-    "Anyways, what'd you die to?",
-    "Oh that one...",
-    "I hope that one isn't too confusing...",
-    "All I'll let you know is that it starts attacking after Room A-90.",
-    "So, you could call it A-90.",
-    "Anyways, I hope you don't mind trying again. It would be helpful.",
-  ];
+  const messages = brazilMode
+    ? [
+        "ih ala junin",
+        "se liga no nóia que apareceu aq",
+        "slk mermão cara brotou do nada",
+        "eai parça veio daonde",
+        "akkkkkk morreu é?",
+        "mané lerdo pa porra",
+        "seguinte acho bom vc n ter moscado p entender",
+        "esse cara aí meu aparece lá pela porta do 90",
+        "ai sla chama ele assim ent",
+        "blz parça dps tenta de novo ai pra da uma força aí pra nois",
+      ]
+    : [
+        "Oh... Hello.",
+        "I'm surprised you found this place.",
+        "It's pretty tedious just to get here, last time I checked.",
+        "Anyways, what'd you die to?",
+        "Oh that one...",
+        "I hope that one isn't too confusing...",
+        "All I'll let you know is that it starts attacking after Room A-90.",
+        "So, you could call it A-90.",
+        "Anyways, I hope you don't mind trying again. It would be helpful.",
+      ];
+
   const [messageIndex, setMessageIndex] = useState(0);
   const [hideMessage, setHideMessage] = useState(false);
 
@@ -32,9 +46,10 @@ export default function A90({ end }: { end: () => void }) {
       setPos([50, 50]);
       setState(1);
 
-      addEventListener("mousemove", () => {
-        setHasMoved(true);
-      });
+      addEventListener("mousemove", () => setHasMoved(true));
+      addEventListener("keypress", () => setHasMoved(true));
+      addEventListener("touchmove", () => setHasMoved(true));
+      addEventListener("touchstart", () => setHasMoved(true));
     }, 485.449);
 
     setTimeout(() => {
@@ -91,10 +106,10 @@ export default function A90({ end }: { end: () => void }) {
 
   return state >= 0 ? (
     <>
-      {audioSource === 0 && <audio src="a90.mp3" autoPlay onEnded={end} />}
+      {audioSource === 0 && <audio src={brazilMode ? "a90-b.mp3" : "a90.mp3"} autoPlay onEnded={end} />}
       {audioSource === 1 && (
         <audio
-          src="a90-hit.mp3"
+          src={brazilMode ? "a90-b-hit.mp3" : "a90-hit.mp3"}
           autoPlay
           onTimeUpdate={(e) => {
             const target = e.target as HTMLAudioElement;
@@ -108,7 +123,7 @@ export default function A90({ end }: { end: () => void }) {
       )}
       {audioSource === 2 && (
         <audio
-          src="curious.mp3"
+          src={brazilMode ? "curious-b.mp3" : "curious.mp3"}
           autoPlay
           onTimeUpdate={(e) => {
             const target = e.target as HTMLAudioElement;

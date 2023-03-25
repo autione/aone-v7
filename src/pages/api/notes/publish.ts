@@ -1,14 +1,7 @@
-// Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import { initializeApp } from "firebase/app";
-import {
-  getAuth,
-  initializeAuth,
-  signInWithEmailAndPassword,
-} from "firebase/auth";
-import { deleteDoc, doc, getFirestore, setDoc } from "firebase/firestore";
+import { getAuth, initializeAuth, signInWithEmailAndPassword } from "firebase/auth";
+import { doc, getFirestore, setDoc } from "firebase/firestore";
 import type { NextApiRequest, NextApiResponse } from "next";
-import { Post } from "../../../types";
-import { randomUUID } from "crypto";
 import { firebaseConfig } from "../../../config";
 import slug from "slug";
 
@@ -19,10 +12,7 @@ type Data = {
   id?: string;
 };
 
-export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse<Data>
-) {
+export default async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
   if (req.method !== "POST")
     return res.status(405).json({
       success: false,
@@ -43,10 +33,11 @@ export default async function handler(
     });
 
   const auth = String(req.headers.authorization).replace("Bearer ", "");
-  const { title, description, content } = req.body as {
+  const { title, description, content, hidden } = req.body as {
     title: string;
     description: string;
     content: string;
+    hidden: boolean;
   };
 
   const firebase = initializeApp(firebaseConfig);
@@ -55,11 +46,7 @@ export default async function handler(
   initializeAuth(firebase);
   const authProvider = getAuth();
   try {
-    await signInWithEmailAndPassword(
-      authProvider,
-      String(process.env.NOTES_USER_LOGIN),
-      auth
-    );
+    await signInWithEmailAndPassword(authProvider, String(process.env.NOTES_USER_LOGIN), auth);
 
     const rnd = () =>
       Math.floor(Math.random() * 9999 + 1)
@@ -73,6 +60,7 @@ export default async function handler(
         description,
         content,
         created_at: Date.now(),
+        hidden,
       });
     } catch (err) {
       console.error("Failed to create post:", err);

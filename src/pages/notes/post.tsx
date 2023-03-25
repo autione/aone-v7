@@ -52,8 +52,7 @@ export default function Post() {
           <br />
           Citation Content&lt;br/&gt;
           <br />
-          &lt;small style=&quot;opacity: 0.65;&quot;&gt;Citation
-          Author&lt;/small&gt;
+          &lt;small style=&quot;opacity: 0.65;&quot;&gt;Citation Author&lt;/small&gt;
           <br />
           &lt;/blockquote&gt;
         </code>
@@ -74,6 +73,7 @@ export default function Post() {
   const PublishContent = () => {
     const [password, setPassword] = useState("");
     const [disabled, setDisabled] = useState(false);
+    const [hidden, setHidden] = useState(false);
 
     return (
       <div className={styles.infoContent}>
@@ -87,69 +87,74 @@ export default function Post() {
           />
         </section>
 
-        <Button
-          disabled={disabled}
-          onClick={() => {
-            setDisabled(true);
+        <div className={styles.buttonActions}>
+          <Button
+            disabled={disabled}
+            onClick={() => {
+              setDisabled(true);
 
-            fetch("/api/notes/publish", {
-              method: "POST",
-              headers: {
-                authorization: password,
-                "content-type": "application/json",
-              },
-              body: JSON.stringify({
-                title,
-                description,
-                content,
-              }),
-            })
-              .then((r) => r.json())
-              .then((data) => {
-                if (!data.success) {
-                  console.error(data);
-                  return modalsContext.data.set({
+              fetch("/api/notes/publish", {
+                method: "POST",
+                headers: {
+                  authorization: password,
+                  "content-type": "application/json",
+                },
+                body: JSON.stringify({
+                  title,
+                  description,
+                  content,
+                  hidden,
+                }),
+              })
+                .then((r) => r.json())
+                .then((data) => {
+                  if (!data.success) {
+                    console.error(data);
+                    return modalsContext.data.set({
+                      icon: <Icon i="send" />,
+                      title: "Publish » Failed",
+                      content: (
+                        <>
+                          <p>
+                            Server returned an error: {data.error}.
+                            {data.message && (
+                              <>
+                                <br />
+                                Message: {data.message}
+                              </>
+                            )}
+                          </p>
+                        </>
+                      ),
+                    });
+                  }
+
+                  router.push(`/notes/${data.id}`);
+                  modalsContext.visible.set(false);
+                })
+                .catch((err) => {
+                  console.error("Failed to request publish", err);
+                  modalsContext.data.set({
                     icon: <Icon i="send" />,
                     title: "Publish » Failed",
                     content: (
                       <>
-                        <p>
-                          Server returned an error: {data.error}.
-                          {data.message && (
-                            <>
-                              <br />
-                              Message: {data.message}
-                            </>
-                          )}
-                        </p>
+                        <p>A fetch error occurred while publishing. Check console for more details.</p>
                       </>
                     ),
                   });
-                }
-
-                router.push(`/notes/${data.id}`);
-                modalsContext.visible.set(false);
-              })
-              .catch((err) => {
-                console.error("Failed to request publish", err);
-                modalsContext.data.set({
-                  icon: <Icon i="send" />,
-                  title: "Publish » Failed",
-                  content: (
-                    <>
-                      <p>
-                        A fetch error occurred while publishing. Check console
-                        for more details.
-                      </p>
-                    </>
-                  ),
                 });
-              });
-          }}
-          fullWidth
-        >
-          Authorize and publish
-        </Button>
+            }}
+            fullWidth
+          >
+            Publish note
+          </Button>
+
+          <Button disabled={disabled} onClick={() => setHidden(!hidden)} fullWidth>
+            <Icon i={hidden ? "lock" : "public"} />
+            {hidden ? "Private" : "Public"}
+          </Button>
+        </div>
       </div>
     );
   };
@@ -167,22 +172,13 @@ export default function Post() {
               Views <li />
             </b>
             <span>
-              <button
-                onClick={() => setViews([true, false])}
-                className={views[0] && !views[1] ? styles.selected : ""}
-              >
+              <button onClick={() => setViews([true, false])} className={views[0] && !views[1] ? styles.selected : ""}>
                 <Icon i="edit" />
               </button>
-              <button
-                onClick={() => setViews([false, true])}
-                className={views[1] && !views[0] ? styles.selected : ""}
-              >
+              <button onClick={() => setViews([false, true])} className={views[1] && !views[0] ? styles.selected : ""}>
                 <Icon i="visibility" />
               </button>
-              <button
-                onClick={() => setViews([true, true])}
-                className={views[0] && views[1] ? styles.selected : ""}
-              >
+              <button onClick={() => setViews([true, true])} className={views[0] && views[1] ? styles.selected : ""}>
                 <Icon i="vertical_split" />
               </button>
             </span>
@@ -266,18 +262,11 @@ export default function Post() {
       </header>
 
       <main
-        className={`${styles.writeView} ${
-          (views[0] && !views[1]) || (views[1] && !views[0])
-            ? styles.single
-            : ""
-        }`}
+        className={`${styles.writeView} ${(views[0] && !views[1]) || (views[1] && !views[0]) ? styles.single : ""}`}
       >
         {views[0] && (
           <>
-            <textarea
-              value={content}
-              onChange={(e) => setContent(e.target.value)}
-            />
+            <textarea value={content} onChange={(e) => setContent(e.target.value)} />
           </>
         )}
 

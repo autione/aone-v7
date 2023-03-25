@@ -7,7 +7,7 @@ import Icon from "../Icon";
 
 import { initializeApp } from "firebase/app";
 import { collection, getDocs, getFirestore } from "firebase/firestore";
-import { getDownloadURL, getStorage, ref } from "firebase/storage";
+// import { getDownloadURL, getStorage, ref } from "firebase/storage";
 
 import { firebaseConfig } from "../../config";
 import Image from "next/image";
@@ -25,7 +25,7 @@ export default function ProjectsContent() {
 
   const firebase = initializeApp(firebaseConfig);
   const db = getFirestore(firebase);
-  const storage = getStorage(firebase);
+  // const storage = getStorage(firebase);
 
   const [status, setStatus] = useState("");
   const [projects, setProjects] = useState<ProjectWithAssets[]>([]);
@@ -70,15 +70,14 @@ export default function ProjectsContent() {
   return (
     <>
       <p>
-        This is for you who is looking for a portfolio of some sorts regarding
-        my previous works, or for you who is curious to see what this very
-        dissimilar person has done of good throughout their existence, or for
-        you who is either both or none of these.
+        This is for you who is looking for a portfolio of some sorts regarding my previous works, or for you who is
+        curious to see what this very dissimilar person has done of good throughout their existence, or for you who is
+        either both or none of these.
       </p>
 
       <p>
-        My projects aren&apos;t that popular, so it&apos;s likely you
-        haven&apos;t seem any of these before, but who knows. ¯\_(ツ)_/¯
+        My projects aren&apos;t that popular, so it&apos;s likely you haven&apos;t seem any of these before, but who
+        knows. ¯\_(ツ)_/¯
       </p>
 
       {projects.length > 0 &&
@@ -86,13 +85,7 @@ export default function ProjectsContent() {
           .sort((a, b) => a.status - b.status)
           .map((project, index) => (
             <div className={styles.project} key={`project-${index}`}>
-              <Image
-                className={styles.icon}
-                src={project.assets.icon}
-                alt="Project Icon"
-                width={96}
-                height={96}
-              />
+              <Image className={styles.icon} src={project.assets.icon} alt="Project Icon" width={96} height={96} />
               <main>
                 <span className={styles.textContent}>
                   <b className={styles.title}>{project.name}</b>
@@ -144,14 +137,8 @@ export default function ProjectsContent() {
                   </ul>
                 </span>
                 <span>{project.description}</span>
-                <span
-                  className={`${styles.status} ${styles[`s${project.status}`]}`}
-                >
-                  {
-                    ["Active", "In Development", "On Hold", "Deprecated"][
-                      project.status
-                    ]
-                  }
+                <span className={`${styles.status} ${styles[`s${project.status}`]}`}>
+                  {["Active", "In Development", "On Hold", "Deprecated"][project.status]}
                 </span>
               </main>
             </div>
@@ -177,14 +164,13 @@ export default function ProjectsContent() {
       </noscript>
 
       <p>
-        Of course that, any programmer out there will have a bazillion dead
-        projects, being them just for experimentation, or an idea that ended up
-        not taking off, and I&apos;m no exception for that.
+        Of course that, any programmer out there will have a bazillion dead projects, being them just for
+        experimentation, or an idea that ended up not taking off, and I&apos;m no exception for that.
       </p>
 
       <p>
-        I have way more than just these projects, but the ones listed are the
-        ones I considered being my favorites and most well worked on.
+        I have way more than just these projects, but the ones listed are the ones I considered being my favorites and
+        most well worked on.
       </p>
     </>
   );

@@ -2,17 +2,12 @@
 import Image from "next/image";
 import styles from "../../styles/components/views/Socials.module.scss";
 
-export default function SocialsContent({
-  avatars,
-}: {
-  avatars: { [key: string]: string };
-}) {
+export default function SocialsContent({ avatars }: { avatars: { [key: string]: string } }) {
   return (
     <>
       <p>
-        If something on this site got you interested in what I do, or you want
-        to stalk me, below you&apos;ll have my most used social media accounts
-        and ways to get in touch with me. Beware of randomness.
+        If something on this site got you interested in what I do, or you want to stalk me, below you&apos;ll have my most used social media accounts and ways
+        to get in touch with me. Beware of randomness.
         <br />
         <br />
         Click a card to visit the page.
@@ -21,12 +16,7 @@ export default function SocialsContent({
         <div className={styles.socialCard}>
           <i>
             <img src="/twitter.svg" alt="Twitter Logo" />
-            <Image
-              className={styles.avatar}
-              src="/pieces/twitter.svg"
-              alt="Twitter Profile Picture"
-              layout="fill"
-            />
+            <Image className={styles.avatar} src="/pieces/twitter.svg" alt="Twitter Profile Picture" layout="fill" />
           </i>
           <main className={styles.content}>
             <span className={styles.textContent}>
@@ -36,11 +26,7 @@ export default function SocialsContent({
           </main>
         </div>
       </a>
-      <a
-        href="https://reddit.com/u/FiveManiaFifty"
-        rel="noreferrer"
-        target="_blank"
-      >
+      <a href="https://reddit.com/u/FiveManiaFifty" rel="noreferrer" target="_blank">
         <div className={styles.socialCard}>
           <i>
             <img src="/reddit.svg" alt="Reddit Logo" />
@@ -53,20 +39,11 @@ export default function SocialsContent({
           </main>
         </div>
       </a>
-      <a
-        href="https://discord.com/users/226484318959173632"
-        rel="noreferrer"
-        target="_blank"
-      >
+      <a href="https://discord.com/users/226484318959173632" rel="noreferrer" target="_blank">
         <div className={styles.socialCard}>
           <i>
             <img src="/discord.svg" alt="Discord Logo" />
-            <Image
-              className={styles.avatar}
-              src={avatars.discord}
-              alt="Discord Profile Picture"
-              layout="fill"
-            />
+            <Image className={styles.avatar} src={avatars.discord} alt="Discord Profile Picture" layout="fill" />
           </i>
           <main className={styles.content}>
             <span className={styles.textContent}>
@@ -93,12 +70,7 @@ export default function SocialsContent({
         <div className={styles.socialCard}>
           <i>
             <img src="/github.svg" alt="GitHub Logo" />
-            <Image
-              className={styles.avatar}
-              src={avatars.github}
-              alt="GitHub Profile Picture"
-              layout="fill"
-            />
+            <Image className={styles.avatar} src={avatars.github} alt="GitHub Profile Picture" layout="fill" />
           </i>
           <main className={styles.content}>
             <span className={styles.textContent}>
@@ -108,12 +80,7 @@ export default function SocialsContent({
           </main>
         </div>
       </a>
-      or if you&apos;re more classy
-      <a
-        href="https://matrix.to/#/@autione:vern.cc"
-        rel="noreferrer"
-        target="_blank"
-      >
+      <a href="https://matrix.to/#/@autione:envs.net" rel="noreferrer" target="_blank">
         <div className={styles.socialCard}>
           <i>
             <img src="/matrix.svg" alt="Matrix Logo" />
@@ -122,7 +89,7 @@ export default function SocialsContent({
             <span className={styles.textContent}>
               <span className={styles.title}>Matrix</span>
               <span>
-                @autione:vern.cc <small>(via matrix.to)</small>
+                @autione:envs.net <small>(via matrix.to)</small>
               </span>
             </span>
           </main>
@@ -137,15 +104,8 @@ export default function SocialsContent({
             <span className={styles.title}>E-mail</span>
             <span>
               <span className={styles.reveal}>
-                m​e{" "}
-                <small style={{ color: "inherit", opacity: 0.75 }}>
-                  ​[​a​t​]
-                </small>{" "}
-                ​​​a​u​t​i​{" "}
-                <small style={{ color: "inherit", opacity: 0.75 }}>
-                  [​d​o​t​]
-                </small>{" "}
-                ​o​n​e
+                m​e <small style={{ color: "inherit", opacity: 0.75 }}>​[​a​t​]</small> ​​​a​u​t​i​{" "}
+                <small style={{ color: "inherit", opacity: 0.75 }}>[​d​o​t​]</small> ​o​n​e
               </span>{" "}
               <small>(hover to reveal)</small>
             </span>

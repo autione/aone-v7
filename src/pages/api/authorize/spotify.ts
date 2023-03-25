@@ -1,11 +1,9 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import fetch from "node-fetch";
-import { createClient } from "@supabase/supabase-js";
 import type { NextApiRequest, NextApiResponse } from "next";
-import type { OAuthService } from "../../../types";
 import { initializeApp } from "firebase/app";
 import { firebaseConfig } from "../../../config";
-import { doc, getDoc, getFirestore, setDoc } from "firebase/firestore";
+import { doc, getFirestore, setDoc } from "firebase/firestore";
 
 type Data = {
   success: boolean;
@@ -13,10 +11,7 @@ type Data = {
   message?: string;
 };
 
-export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse<Data>
-) {
+export default async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
   if (req.method !== "GET" && req.method !== "POST")
     return res.status(405).json({
       success: false,
@@ -47,11 +42,7 @@ export default async function handler(
 
     const formBody = [];
     for (const property in bodyData)
-      formBody.push(
-        `${encodeURIComponent(property)}=${encodeURIComponent(
-          bodyData[property]
-        )}`
-      );
+      formBody.push(`${encodeURIComponent(property)}=${encodeURIComponent(bodyData[property])}`);
 
     const res = await fetch("https://accounts.spotify.com/api/token", {
       method: "POST",
@@ -90,8 +81,7 @@ export default async function handler(
     const ref = doc(db, "oauth-services", "spotify");
 
     if (!userData) throw new Error("Failed to verify user data.");
-    if (userData.id !== process.env.SPOTIFY_USER_ID)
-      throw new Error("Provided user is not trusted.");
+    if (userData.id !== process.env.SPOTIFY_USER_ID) throw new Error("Provided user is not trusted.");
 
     console.log(oauthData);
 

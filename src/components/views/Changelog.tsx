@@ -13,7 +13,7 @@ export default function ChangelogContent({ version }: { version: string }) {
       </p>
       <ul className={styles.list}>
         <li>
-          <label>More secrets!</label>
+          <label>All pages that use notes now load their content server-side. No more JS needed! :)</label>
         </li>
       </ul>
     </>

@@ -1,23 +1,12 @@
-import { useEffect, useState } from "react";
-
-import Button from "../../components/Button";
-
 import styles from "../../styles/Notes.module.scss";
 
 import Link from "next/link";
 
 import { Post } from "../../types";
 import Icon from "../../components/Icon";
-import { useModalsContext } from "../../components/contexts/Modals";
 
 import { initializeApp } from "firebase/app";
-import {
-  collection,
-  getDocs,
-  getFirestore,
-  orderBy,
-  query,
-} from "firebase/firestore";
+import { collection, getDocs, getFirestore, orderBy, query } from "firebase/firestore";
 import { firebaseConfig } from "../../config";
 
 export default function NotesContent({ posts }: { posts: Post[] }) {
@@ -59,23 +48,28 @@ export default function NotesContent({ posts }: { posts: Post[] }) {
                       <i>
                         <Icon i="calendar_month" />
                       </i>
-                      {new Date(post.created_at || 0).toLocaleDateString(
-                        ["en-UK"],
-                        { day: "numeric", month: "short", year: "numeric" }
-                      )}
+                      {new Date(post.created_at || 0).toLocaleDateString(["en-UK"], {
+                        day: "numeric",
+                        month: "short",
+                        year: "numeric",
+                      })}
                     </li>
                     <li>
                       <i>
                         <Icon i="schedule" />
                       </i>
-                      {new Date(post.created_at || 0).toLocaleTimeString(
-                        ["en-UK"],
-                        {
-                          hour: "2-digit",
-                          minute: "2-digit",
-                        }
-                      )}
+                      {new Date(post.created_at || 0).toLocaleTimeString(["en-UK"], {
+                        hour: "2-digit",
+                        minute: "2-digit",
+                      })}
                     </li>
+                    {post.hidden && (
+                      <li>
+                        <i>
+                          <Icon i="visibility_off" />
+                        </i>
+                      </li>
+                    )}
                   </ul>
                 </main>
               </a>
@@ -95,7 +89,10 @@ export async function getServerSideProps() {
     const snap = await getDocs(ref);
 
     let data: Post[] = [];
-    snap.forEach((e) => data.push({ ...(e.data() as Post), id: e.id }));
+    snap.forEach((e) => {
+      const info = e.data() as Post;
+      if (!info.hidden) data.push({ ...info, id: e.id });
+    });
 
     return {
       props: { posts: data },
