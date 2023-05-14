@@ -55,7 +55,7 @@ export default function Edit(props: Props) {
               onClick={() => {
                 setDisabled(true);
 
-                fetch(`/api/notes/${props.post?.id}`, {
+                fetch(`/api/notes/${props.post?.id || router.query.id}`, {
                   method: "PUT",
                   headers: {
                     authorization: password,

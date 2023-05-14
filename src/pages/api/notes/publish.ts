@@ -61,6 +61,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
         content,
         created_at: Date.now(),
         hidden,
+        views: 0,
       });
     } catch (err) {
       console.error("Failed to create post:", err);

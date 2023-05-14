@@ -1,7 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 import Image from "next/image";
+import { ReactNode } from "react";
 import styles from "../../styles/components/views/Fellows.module.scss";
-import Alert from "../Alert";
 import Button from "../Button";
 import Icon from "../Icon";
 
@@ -16,6 +16,7 @@ export default function FellowsContent() {
     name?: string;
     pseudonym: string;
     description?: string;
+    note?: ReactNode;
     links: {
       icon: string;
       text: string;
@@ -40,22 +41,55 @@ export default function FellowsContent() {
       name: "Daniel",
       pseudonym: "pjals",
       description: "Average non-free fan vs. average libre/GNU enjoyer🄯",
+      note: (
+        <>
+          <p>
+            pjals has been gone for a while, a few days before vern.cc went down on March 2023. Even though he had an
+            account on envs.net, pjals also did not appear there, being it through Matrix, Pleroma or any other offered
+            communication service.
+          </p>
+          <p>
+            Other users from vern.cc have also asked about pjals and none of them did really know what was going on with
+            him.
+          </p>
+          <p>
+            I also analyzed activity on some MineTest he&apos;d visit from time to time, his webpages and other
+            conversation channels, but I haven&apos;t really found anything.
+          </p>
+          <p>
+            My last signal from pjals was from around 50 to 60 days ago (as of May 14, 2023), and since he has
+            manifested no activity anywhere else, I think he just might be gone.
+          </p>
+          <p>
+            While he has went &quot;missing&quot; before during similar periods, it was simple inactivity in <i>some</i>{" "}
+            places. When he vanished from Discord, I could still reach him on other places, such as GitHub, IRC and
+            WSChat. After some time, we settled on Matrix, but now he has not shown up anywhere, and I have a feeling
+            that this time it&apos;s different.
+          </p>
+          <p>
+            In any case, my point with this note is just to let you know that I no longer have contact with him because
+            of this disappearance, but I do hope he comes back eventually, even though we had some conflicts (specially
+            related to libre stuff 😅), I valued him a lot and he was still a really nice friend for me.
+          </p>
+          <p>At least, I got to be his friend.</p>
+        </>
+      ),
       links: [
         {
           icon: "public",
           text: "Website",
-          to: "https://pjals.vern.cc/",
+          to: "https://pjals.envs.net/",
         },
         {
           icon: "sticky_note_2",
           text: "Fedi",
           to: "https://pleroma.envs.net/pjals",
         },
-        {
-          icon: "chat",
-          text: "Matrix",
-          to: "https://matrix.to/#/@pjals:vern.cc",
-        },
+        // {
+        //   icon: "chat",
+        //   text: "Matrix",
+        //   to: "https://matrix.to/#/@pjals:vern.cc",
+        // }, // not working
       ],
     },
     {
@@ -119,32 +153,6 @@ export default function FellowsContent() {
       ],
     },
     {
-      id: "abyss",
-      name: "Peterson",
-      pseudonym: "Abyss",
-      description: "Eu sigo o Dr. Fran em todas as redes sociais.",
-      links: [
-        {
-          icon: "sticky_note_2",
-          text: "Twitter",
-          to: "https://twitter.com/Z3ckZ",
-        },
-      ],
-    },
-    {
-      id: "beastlyghost",
-      name: "Gabriela",
-      pseudonym: "BeastlyGhost",
-      description: "fridaynightfunkign!?@?:!",
-      links: [
-        {
-          icon: "code",
-          text: "GitHub",
-          to: "https://github.com/BeastlyGhost",
-        },
-      ],
-    },
-    {
       id: "blackdragon",
       pseudonym: "BlackDragon",
       description: "...seals?",
@@ -161,14 +169,11 @@ export default function FellowsContent() {
   return (
     <>
       <p>
-        Check out my fellow programmer and artist friends. They&apos;re nice
-        people and are quite into some subjects I&apos;m also experienced at.
+        Check out my fellow programmer and artist friends. They&apos;re nice people and are quite into some subjects
+        I&apos;m also experienced at.
         <br />
         <br />
-        <small>
-          Appearance order doesn&apos;t have any meaning here. You&apos;re all
-          amazing!
-        </small>
+        <small>Appearance order doesn&apos;t have any meaning here. You&apos;re all amazing!</small>
       </p>
 
       {people.map((person, index) => (
@@ -194,19 +199,17 @@ export default function FellowsContent() {
               {person.description}
             </span>
 
+            {person.note && (
+              <details className={styles.userNote}>
+                <summary>A note on {person.name || person.pseudonym} by AutiOne</summary>
+                <div className={styles.noteContent}>{person.note}</div>
+              </details>
+            )}
+
             <span className={styles.actions}>
               {person.links.map((link, linkIndex) => (
-                <a
-                  href={link.to}
-                  rel="noreferrer"
-                  target="_blank"
-                  key={`person-${index}-fellows-link-${linkIndex}`}
-                >
-                  <Button
-                    colors={[colors.accent, colors.background]}
-                    icon={<Icon i={link.icon} />}
-                    variant="reduced"
-                  >
+                <a href={link.to} rel="noreferrer" target="_blank" key={`person-${index}-fellows-link-${linkIndex}`}>
+                  <Button colors={[colors.accent, colors.background]} icon={<Icon i={link.icon} />} variant="reduced">
                     {link.text}
                   </Button>
                 </a>
@@ -218,9 +221,8 @@ export default function FellowsContent() {
 
       <p>
         <small>
-          Content and opinions shown might not be, and most likely are not
-          belonging or linked to me. Agreement or endorsement is not necessarily
-          applied, although, they&apos;re still nice people.
+          Content and opinions shown might not be, and most likely are not belonging or linked to me. Agreement or
+          endorsement is not necessarily applied, although, they&apos;re still nice people.
         </small>
       </p>
     </>

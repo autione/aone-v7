@@ -63,10 +63,16 @@ export default function NotesContent({ posts }: { posts: Post[] }) {
                         minute: "2-digit",
                       })}
                     </li>
+                    <li>
+                      <i>
+                        <Icon i="visibility" />
+                      </i>
+                      {post.views || 0} view{(post.views || 0) === 1 ? "" : "s"}
+                    </li>
                     {post.hidden && (
                       <li>
                         <i>
-                          <Icon i="visibility_off" />
+                          <Icon i="lock" />
                         </i>
                       </li>
                     )}

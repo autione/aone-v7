@@ -58,6 +58,12 @@ export default function NotesContent({ posts }: { posts: Post[] }) {
                       minute: "2-digit",
                     })}
                   </li>
+                  <li>
+                    <i>
+                      <Icon i="visibility" />
+                    </i>
+                    {post.views || 0} view{post.views === 1 ? "" : "s"}
+                  </li>
                 </ul>
               </main>
             </a>
