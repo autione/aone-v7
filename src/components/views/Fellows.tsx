@@ -53,7 +53,7 @@ export default function FellowsContent() {
             him.
           </p>
           <p>
-            I also analyzed activity on some MineTest he&apos;d visit from time to time, his webpages and other
+            I also analyzed activity on some MineTest servers he&apos;d visit from time to time, his webpages and other
             conversation channels, but I haven&apos;t really found anything.
           </p>
           <p>
