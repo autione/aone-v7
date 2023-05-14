@@ -1,7 +1,10 @@
+/* eslint-disable @next/next/no-img-element */
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import remarkEmoji from "remark-emoji";
 import rehypeRaw from "rehype-raw";
+import rehypeKatex from "rehype-katex";
+import remarkMath from "remark-math";
 
 import styles from "../styles/components/Markdown.module.scss";
 
@@ -12,12 +15,22 @@ export default function Markdown({ children }: { children: string }) {
       components={{
         pre: ({ children }) => <>{children}</>,
         code: ({ node, inline, className, children, ...props }) => {
+          const splitted = String(children).split("\n");
+          splitted.pop();
+
           return inline ? (
             <code {...props} className={styles.inlineCode}>
               {children}
             </code>
           ) : (
-            <code {...props}>{children}</code>
+            <code {...props}>
+              {splitted.map((val, i) => (
+                <span style={{ whiteSpace: "pre" }} key={i}>
+                  {val}
+                  <br />
+                </span>
+              ))}
+            </code>
           );
         },
         img: ({ src, alt, ...props }) => {
@@ -29,8 +42,8 @@ export default function Markdown({ children }: { children: string }) {
           );
         },
       }}
-      remarkPlugins={[remarkGfm, remarkEmoji]}
-      rehypePlugins={[rehypeRaw]}
+      remarkPlugins={[remarkGfm, remarkEmoji, remarkMath]}
+      rehypePlugins={[rehypeRaw, rehypeKatex]}
     >
       {children}
     </ReactMarkdown>

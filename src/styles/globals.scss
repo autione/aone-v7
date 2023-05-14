@@ -1,5 +1,6 @@
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&family=Staatliches&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Quicksand:wght@500&display=swap");
+@import url("https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.css");
 
 @font-face {
   font-family: "Material Symbols Sharp";
@@ -24,6 +25,12 @@
   -moz-font-feature-settings: "liga";
   -moz-osx-font-smoothing: grayscale;
   user-select: none;
+}
+
+.contentRow {
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
 }
 
 html,
@@ -168,5 +175,14 @@ blockquote {
   body {
     padding: 0.5rem;
     box-sizing: border-box;
+  }
+}
+
+@media only screen and (max-width: 800px) {
+  .contentRow {
+    flex-direction: column;
+    img {
+      width: 100% !important;
+    }
   }
 }

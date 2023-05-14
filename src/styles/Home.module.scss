@@ -77,6 +77,7 @@
 
     section.shortcuts {
       gap: 1rem;
+      justify-content: flex-end;
     }
 
     .shortcut {
@@ -483,7 +484,8 @@ small.copyright {
 
   width: 100%;
 
-  background: repeating-linear-gradient(-45deg, var(--stripe-tint) 0, var(--stripe-tint) 8px, #0000 8px, #0000 16px), var(--background);
+  background: repeating-linear-gradient(-45deg, var(--stripe-tint) 0, var(--stripe-tint) 8px, #0000 8px, #0000 16px),
+    var(--background);
 
   display: flex;
   flex-direction: column;
@@ -725,6 +727,10 @@ small.copyright {
       line-height: 5.75rem;
     }
   }
+
+  .labels {
+    max-width: 20rem !important;
+  }
 }
 
 @media only screen and (max-width: 1380px) {
@@ -734,6 +740,10 @@ small.copyright {
 
     section.shortcuts {
       justify-content: center;
+    }
+
+    .labels {
+      max-width: 15rem !important;
     }
 
     & > section:first-child {
@@ -776,6 +786,10 @@ small.copyright {
 
   .banner {
     display: none;
+  }
+
+  .labels {
+    max-width: 10rem !important;
   }
 }
 

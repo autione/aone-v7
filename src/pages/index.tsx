@@ -14,18 +14,21 @@ import InterestsContent from "../components/views/Interests";
 import NotesContent from "../components/views/Notes";
 import ProjectsContent from "../components/views/Projects";
 import ChangelogContent from "../components/views/Changelog";
+import IceCreamContent from "../components/views/IceCream";
 
 import styles from "../styles/Home.module.scss";
 
 import { OAuthService, Post } from "../types";
-import { firebaseConfig } from "../config";
+import { firebaseConfig, meta } from "../config";
 
 import { initializeApp } from "firebase/app";
 import { getAuth, initializeAuth, signInWithEmailAndPassword } from "firebase/auth";
 import { collection, doc, getDoc, getDocs, getFirestore, orderBy, query, setDoc } from "firebase/firestore";
-import IceCreamContent from "../components/views/IceCream";
+
 import { useModalsContext } from "../components/contexts/Modals";
+
 import Button from "../components/Button";
+
 import A90 from "../components/extras/A90";
 
 interface Props {
@@ -51,8 +54,6 @@ interface Props {
 }
 
 export default function Home(props: Props) {
-  const version = "v7.2.3";
-
   const names = ["AutiOne", "Davi Rafael"];
   const [nameIndex, setNameIndex] = useState(0);
   const [name, setName] = useState(names[nameIndex]);
@@ -171,7 +172,7 @@ export default function Home(props: Props) {
                   <summary>
                     <Icon i="terminal" />
                     <span className={styles.labels}>
-                      <span>{version}</span>
+                      <span>{meta.version}</span>
                     </span>
                   </summary>
                 </details>
@@ -492,7 +493,7 @@ export default function Home(props: Props) {
               title="Changelog"
               id="changelog"
             >
-              <ChangelogContent version={version} />
+              <ChangelogContent version={meta.version} />
             </Window>
           </section>
         </main>
@@ -500,7 +501,7 @@ export default function Home(props: Props) {
         <small className={styles.copyright}>
           &copy; AutiOne · 2022
           <br />
-          {version}-{process.env.NODE_ENV} · Made in Brazil with Next.js
+          {meta.version}-{process.env.NODE_ENV} · Made in Brazil with Next.js
           <br />
           <details>
             <summary>Licenses and Attributions</summary>

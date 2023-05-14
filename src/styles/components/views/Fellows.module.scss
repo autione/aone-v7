@@ -28,6 +28,32 @@
       gap: 0.5rem;
     }
 
+    .userNote {
+      summary {
+        color: var(--accent);
+      }
+
+      .noteContent {
+        p {
+          font-weight: normal;
+        }
+
+        p:not(:last-child) {
+          margin-bottom: 0.75rem;
+        }
+
+        max-height: 10rem;
+        padding: 0.75rem;
+        margin-top: 0.5rem;
+        background-color: #fff1;
+        border: 2px solid var(--accent);
+
+        overflow: auto;
+      }
+
+      font-size: 0.95rem;
+    }
+
     .textContent {
       display: flex;
       flex-direction: column;

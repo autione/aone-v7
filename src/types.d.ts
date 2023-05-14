@@ -10,6 +10,7 @@ export interface Post {
   description?: string;
   content: string;
   hidden?: boolean;
+  views?: number;
 }
 
 export interface Project {
