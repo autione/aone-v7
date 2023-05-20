@@ -112,5 +112,69 @@
     &.s3 {
       --tint: #ff4f4f;
     }
+    &.s4 {
+      --tint: #af8fff;
+    }
   }
+
+  .links {
+    padding: 0.25rem 0;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+}
+
+.lowerProjects {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  summary {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.35rem;
+
+    list-style: none;
+
+    &::-webkit-details-marker {
+      display: none;
+    }
+
+    padding: 0.35rem 1.25rem;
+
+    color: var(--accent);
+    border: 4px solid var(--accent);
+    box-shadow: 4px 4px 0 var(--transparent-accent);
+
+    transition: opacity 0.3s, box-shadow 0.2s;
+
+    cursor: pointer;
+
+    &:hover {
+      box-shadow: 6px 6px 0 var(--transparent-accent);
+      opacity: 1;
+    }
+
+    &:active {
+      box-shadow: 4px 4px 0 var(--transparent-accent);
+      opacity: 0.8;
+    }
+  }
+
+  & > main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+
+    padding-top: 2rem;
+  }
+
+  user-select: none;
 }

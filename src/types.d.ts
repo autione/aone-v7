@@ -26,6 +26,7 @@ export interface Project {
     label: string;
     source: string;
   }[];
+  at?: string;
   status: ProjectStatus;
 }
 
@@ -34,4 +35,5 @@ export enum ProjectStatus {
   WORKING,
   PAUSED,
   DEPRECATED,
+  UNKNOWN,
 }

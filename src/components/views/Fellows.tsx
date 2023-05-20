@@ -43,35 +43,45 @@ export default function FellowsContent() {
       description: "Average non-free fan vs. average libre/GNU enjoyer🄯",
       note: (
         <>
+          <details>
+            <summary>Read previous note</summary>
+
+            <p>
+              pjals has been gone for a while, a few days before vern.cc went down on March 2023. Even though he had an
+              account on envs.net, pjals also did not appear there, being it through Matrix, Pleroma or any other
+              offered communication service.
+            </p>
+            <p>
+              Other users from vern.cc have also asked about pjals and none of them did really know what was going on
+              with him.
+            </p>
+            <p>
+              I also analyzed activity on some MineTest servers he&apos;d visit from time to time, his webpages and
+              other conversation channels, but I haven&apos;t really found anything.
+            </p>
+            <p>
+              My last signal from pjals was from around 50 to 60 days ago (as of May 14, 2023), and since he has
+              manifested no activity anywhere else, I think he just might be gone.
+            </p>
+            <p>
+              While he has went &quot;missing&quot; before during similar periods, it was simple inactivity in{" "}
+              <i>some</i> places. When he vanished from Discord, I could still reach him on other places, such as
+              GitHub, IRC and WSChat. After some time, we settled on Matrix, but now he has not shown up anywhere, and I
+              have a feeling that this time it&apos;s different.
+            </p>
+            <p>
+              In any case, my point with this note is just to let you know that I no longer have contact with him
+              because of this disappearance, but I do hope he comes back eventually, even though we had some conflicts
+              (specially related to libre stuff 😅), I valued him a lot and he was still a really nice friend for me.
+            </p>
+            <p>At least, I got to be his friend.</p>
+          </details>
+
           <p>
-            pjals has been gone for a while, a few days before vern.cc went down on March 2023. Even though he had an
-            account on envs.net, pjals also did not appear there, being it through Matrix, Pleroma or any other offered
-            communication service.
+            pjals has came back a few days after vern.cc finally got back up. I didn&apos;t manage to talk to him yet,
+            as he had to go quite quickly after coming online, but I was really happy about it. He seems to be doing
+            fine.
           </p>
-          <p>
-            Other users from vern.cc have also asked about pjals and none of them did really know what was going on with
-            him.
-          </p>
-          <p>
-            I also analyzed activity on some MineTest servers he&apos;d visit from time to time, his webpages and other
-            conversation channels, but I haven&apos;t really found anything.
-          </p>
-          <p>
-            My last signal from pjals was from around 50 to 60 days ago (as of May 14, 2023), and since he has
-            manifested no activity anywhere else, I think he just might be gone.
-          </p>
-          <p>
-            While he has went &quot;missing&quot; before during similar periods, it was simple inactivity in <i>some</i>{" "}
-            places. When he vanished from Discord, I could still reach him on other places, such as GitHub, IRC and
-            WSChat. After some time, we settled on Matrix, but now he has not shown up anywhere, and I have a feeling
-            that this time it&apos;s different.
-          </p>
-          <p>
-            In any case, my point with this note is just to let you know that I no longer have contact with him because
-            of this disappearance, but I do hope he comes back eventually, even though we had some conflicts (specially
-            related to libre stuff 😅), I valued him a lot and he was still a really nice friend for me.
-          </p>
-          <p>At least, I got to be his friend.</p>
         </>
       ),
       links: [

@@ -1,8 +1,8 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 
 import styles from "../../styles/components/views/Projects.module.scss";
 
-import { Project } from "../../types";
+import { Project, ProjectStatus } from "../../types.d";
 import Icon from "../Icon";
 
 import { initializeApp } from "firebase/app";
@@ -12,6 +12,7 @@ import { collection, getDocs, getFirestore } from "firebase/firestore";
 import { firebaseConfig } from "../../config";
 import Image from "next/image";
 import Alert from "../Alert";
+import Button from "../Button";
 
 interface ProjectWithAssets extends Project {
   assets: { [key: string]: string };
@@ -63,9 +64,95 @@ export default function ProjectsContent() {
     }
   };
 
+  const Project = ({ project, index }: { project: ProjectWithAssets; index: number }) => (
+    <div className={styles.project} key={`project-${index}`}>
+      <Image className={styles.icon} src={project.assets.icon} alt="Project Icon" width={96} height={96} />
+      <main>
+        <span className={styles.textContent}>
+          <b className={styles.title}>{project.name}</b>
+          <ul>
+            <li className={styles.epochList} title="Epoch">
+              <i>
+                <Icon i="calendar_month" />
+              </i>
+              {project.epoch.map((v, i) => (
+                <span key={`epoch-${index}.${i}`}>{v}</span>
+              ))}
+            </li>
+            <li title="Technologies">
+              <i>
+                <Icon i="code_blocks" />
+              </i>
+              {project.technologies.map((v, i) => (
+                <span key={`technologies-${index}.${i}`}>{v}</span>
+              ))}
+            </li>
+          </ul>
+          <ul>
+            {project.collaborators.length > 0 && (
+              <li title="Collaborators">
+                <i>
+                  <Icon i="group" />
+                </i>
+                {project.collaborators.map((v, i) => (
+                  <span key={`collaborators-${index}.${i}`}>{v}</span>
+                ))}
+              </li>
+            )}
+            <li title="Categories">
+              <i>
+                <Icon i="bookmark" />
+              </i>
+              {project.tags.map((v, i) => (
+                <span key={`tags-${index}.${i}`}>{v}</span>
+              ))}
+            </li>
+            <li title="Platforms">
+              <i>
+                <Icon i="terminal" />
+              </i>
+              {project.platforms.map((v, i) => (
+                <span key={`platforms-${index}.${i}`}>{v}</span>
+              ))}
+            </li>
+            {project.at && (
+              <li title="Being made at">
+                <i>
+                  <Icon i="alternate_email" />
+                </i>
+                <span>Snowflake</span>
+              </li>
+            )}
+          </ul>
+        </span>
+        <span>{project.description}</span>
+        {project.links.length > 0 && (
+          <section className={styles.links}>
+            {project.links.map((link, index) => (
+              <a href={link.source} target="_blank" rel="noreferrer" key={`proj-link-${index}`}>
+                <Button variant="reduced" colors={[colors.accent, colors.background]} icon={<Icon i="link" />}>
+                  {link.label}
+                </Button>
+              </a>
+            ))}
+          </section>
+        )}
+        <span className={`${styles.status} ${styles[`s${project.status}`]}`}>
+          {["Active", "In Development", "On Hold", "Deprecated", "It's complicated..."][project.status]}
+        </span>
+      </main>
+    </div>
+  );
+
   useEffect(() => {
     fetchProjects();
   }, []);
+
+  const sortedProjects = projects.sort((a, b) => a.status - b.status);
+  const [upper, lower] = [
+    sortedProjects.filter((p) => p.status === ProjectStatus.ACTIVE || p.status === ProjectStatus.WORKING),
+    sortedProjects.filter((p) => p.status !== ProjectStatus.ACTIVE && p.status !== ProjectStatus.WORKING),
+  ];
 
   return (
     <>
@@ -80,69 +167,25 @@ export default function ProjectsContent() {
         knows. ¯\_(ツ)_/¯
       </p>
 
-      {projects.length > 0 &&
-        projects
-          .sort((a, b) => a.status - b.status)
-          .map((project, index) => (
-            <div className={styles.project} key={`project-${index}`}>
-              <Image className={styles.icon} src={project.assets.icon} alt="Project Icon" width={96} height={96} />
-              <main>
-                <span className={styles.textContent}>
-                  <b className={styles.title}>{project.name}</b>
-                  <ul>
-                    <li className={styles.epochList} title="Epoch">
-                      <i>
-                        <Icon i="calendar_month" />
-                      </i>
-                      {project.epoch.map((v, i) => (
-                        <span key={`epoch-${index}.${i}`}>{v}</span>
-                      ))}
-                    </li>
-                    <li title="Technologies">
-                      <i>
-                        <Icon i="code_blocks" />
-                      </i>
-                      {project.technologies.map((v, i) => (
-                        <span key={`technologies-${index}.${i}`}>{v}</span>
-                      ))}
-                    </li>
-                  </ul>
-                  <ul>
-                    {project.collaborators.length > 0 && (
-                      <li title="Collaborators">
-                        <i>
-                          <Icon i="group" />
-                        </i>
-                        {project.collaborators.map((v, i) => (
-                          <span key={`collaborators-${index}.${i}`}>{v}</span>
-                        ))}
-                      </li>
-                    )}
-                    <li title="Categories">
-                      <i>
-                        <Icon i="bookmark" />
-                      </i>
-                      {project.tags.map((v, i) => (
-                        <span key={`tags-${index}.${i}`}>{v}</span>
-                      ))}
-                    </li>
-                    <li title="Platforms">
-                      <i>
-                        <Icon i="terminal" />
-                      </i>
-                      {project.platforms.map((v, i) => (
-                        <span key={`platforms-${index}.${i}`}>{v}</span>
-                      ))}
-                    </li>
-                  </ul>
-                </span>
-                <span>{project.description}</span>
-                <span className={`${styles.status} ${styles[`s${project.status}`]}`}>
-                  {["Active", "In Development", "On Hold", "Deprecated"][project.status]}
-                </span>
-              </main>
-            </div>
+      {projects.length > 0 && (
+        <>
+          {upper.map((project, index) => (
+            <Project project={project} key={`proj-${index}`} index={index} />
           ))}
+
+          {lower.length > 0 && (
+            <details className={styles.lowerProjects}>
+              <summary>More projects</summary>
+
+              <main>
+                {lower.map((project, index) => (
+                  <Project project={project} key={`proj-${index}`} index={index} />
+                ))}
+              </main>
+            </details>
+          )}
+        </>
+      )}
 
       {status && (
         <p

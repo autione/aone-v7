@@ -13,7 +13,13 @@ export default function ChangelogContent({ version }: { version: string }) {
       </p>
       <ul className={styles.list}>
         <li>
-          <label>A few stuff changed on Fellows window.</label>
+          <label>Slight changes on Fellows&apos; notes;</label>
+        </li>
+        <li>
+          <label>Tiny additions to project list items;</label>
+        </li>
+        <li>
+          <label>Inactive projects are no longer shown by default.</label>
         </li>
       </ul>
     </>
