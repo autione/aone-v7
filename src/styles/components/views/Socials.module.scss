@@ -39,8 +39,14 @@
     box-shadow: 5px 5px 0 var(--transparent-accent);
   }
 
-  &:hover > i span {
-    left: 0% !important;
+  &:hover > i {
+    & > span {
+      left: 0% !important;
+    }
+
+    &:has(span) > img {
+      transform: translateX(200%);
+    }
   }
 
   & > i {
@@ -65,6 +71,9 @@
 
       color: #0000;
       font-size: 0;
+
+      transform: translateX(0%);
+      transition: transform 0.3s;
     }
 
     span {
@@ -73,6 +82,8 @@
       top: 0 !important;
 
       width: 100% !important;
+
+      background-color: #fff;
 
       transition: left 0.3s;
     }

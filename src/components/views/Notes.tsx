@@ -1,7 +1,7 @@
 import Link from "next/link";
 
 import Icon from "../Icon";
-import Alert from "../Alert";
+import Button from "../Button";
 
 import { Post } from "../../types";
 
@@ -13,21 +13,15 @@ export default function NotesContent({ posts }: { posts: Post[] }) {
     background: "#2e2b16",
   };
 
+  const partial = [...posts].splice(0, 5);
+
   return (
     <>
       <p>Consider this being some sort of blog, where I post ocasional thoughts and random stuff!</p>
-      <p>
-        This window only shows the last 5 most recent posts. In case you want to see all of them in a list, check out
-        the {/* eslint-disable-next-line @next/next/no-html-link-for-pages */}
-        <a href="/notes" style={{ color: colors.accent }}>
-          notes index
-        </a>
-        .
-      </p>
 
       {posts &&
         posts.length > 0 &&
-        posts.map((post) => (
+        partial.map((post) => (
           <Link href={`/notes/${post.id}`} key={post.id}>
             <a className={styles.postCard}>
               <i>
@@ -69,6 +63,14 @@ export default function NotesContent({ posts }: { posts: Post[] }) {
             </a>
           </Link>
         ))}
+
+      {posts.length > 5 && (
+        <Link href="/notes">
+          <Button colors={[colors.accent, colors.background]} fullWidth>
+            View more
+          </Button>
+        </Link>
+      )}
     </>
   );
 }

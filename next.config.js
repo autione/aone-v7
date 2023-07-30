@@ -3,11 +3,7 @@ const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
   images: {
-    domains: [
-      "firebasestorage.googleapis.com",
-      "cdn.discordapp.com",
-      "github.com",
-    ],
+    domains: ["firebasestorage.googleapis.com", "cdn.discordapp.com", "github.com", "files.mastodon.social", "matrix-client.matrix.org"],
   },
 };
 

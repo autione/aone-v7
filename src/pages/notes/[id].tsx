@@ -86,7 +86,7 @@ export default function Read(props: Props) {
                   <i>
                     <Icon i="hourglass_empty" />
                   </i>
-                  {props.readTime >= 1 ? Math.ceil(props.readTime) : "<1"} minute read
+                  {props.readTime >= 1 ? Math.ceil(props.readTime) : "Less than a"} minute read
                 </li>
               )}
               <li>
@@ -130,25 +130,6 @@ export async function getServerSideProps(context: NextPageContext) {
   let post: Post | null = null;
   let status: string[] | null = null;
 
-  // const supabase = createClient(
-  //   process.env.SUPABASE_PROJECT_URL as string,
-  //   process.env.SUPABASE_SERVICE_KEY as string
-  // );
-
-  // const { data, error } = await supabase
-  //   .from<Post>("posts")
-  //   .select("*")
-  //   .eq("id", String(context.query.id))
-  //   .limit(1);
-
-  // if (error || !data[0]) {
-  //   console.error("Failed to load post", error);
-  //   status = [
-  //     "Post not found",
-  //     "Yeah, bummer. You can try refreshing the page or going to another post, as this one might be unavailable or unexistent. If you're sure this post is valid, try again later.",
-  //   ];
-  // } else post = data[0] || null;
-
   const firebase = initializeApp(firebaseConfig);
   const db = getFirestore(firebase);
   const authProvider = getAuth();
@@ -185,7 +166,7 @@ export async function getServerSideProps(context: NextPageContext) {
     });
 
     const words = post.content.trim().split(/\s+/).length;
-    const time = words / 200; // words / wpm
+    const time = words / 200;
     readTime = time;
   }
 

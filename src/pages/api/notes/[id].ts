@@ -1,24 +1,55 @@
 import { initializeApp } from "firebase/app";
 import { getAuth, initializeAuth, signInWithEmailAndPassword } from "firebase/auth";
-import { deleteDoc, doc, getFirestore, updateDoc } from "firebase/firestore";
+import { deleteDoc, doc, getDoc, getFirestore, updateDoc } from "firebase/firestore";
 
 import type { NextApiRequest, NextApiResponse } from "next";
 import { firebaseConfig } from "../../../config";
 
 type Data = {
   success: boolean;
+  data?: any;
   error?: string;
   message?: string;
   id?: string;
 };
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
-  if (req.method !== "DELETE" && req.method !== "PUT")
+  if (!["GET", "DELETE", "PUT"].includes(String(req.method)))
     return res.status(405).json({
       success: false,
       error: "METHOD_NOT_ALLOWED",
-      message: "Use DELETE or PUT.",
+      message: "Use GET, DELETE or PUT.",
     });
+
+  const firebase = initializeApp(firebaseConfig);
+  const db = getFirestore(firebase);
+
+  if (req.method === "GET") {
+    const id = String(req.query.id);
+    const ref = doc(db, "notes", id);
+    const snap = await getDoc(ref);
+
+    if (!snap.exists()) {
+      return res.status(404).json({
+        success: false,
+        error: "NOT_FOUND",
+      });
+    }
+
+    const data = snap.data();
+    return res.status(200).json({
+      id,
+      success: true,
+      data: {
+        title: data.title,
+        description: data.description,
+        content: data.content,
+        created_at: data.created_at,
+        hidden: data.hidden || false,
+        views: data.views || 0,
+      },
+    });
+  }
 
   if (!req.headers.authorization)
     return res.status(401).json({
@@ -27,9 +58,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
     });
 
   const auth = String(req.headers.authorization).replace("Bearer ", "");
-
-  const firebase = initializeApp(firebaseConfig);
-  const db = getFirestore(firebase);
 
   initializeAuth(firebase);
   const authProvider = getAuth();

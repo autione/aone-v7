@@ -17,19 +17,14 @@ export default function InterestsContent() {
     return (
       <>
         <p>
-          My <i>&quot;spectrum of interest in games&quot;</i> is not very
-          extended. I don&apos;t usually like most games I&apos;m presented to,
-          but when I do like one, it&apos;s really likely you&apos;ll see me
-          fixated to it.
+          My <i>&quot;spectrum of interest in games&quot;</i> is not very extended. I don&apos;t usually like most games I&apos;m presented to, but when I do
+          like one, it&apos;s really likely you&apos;ll see me fixated to it.
         </p>
 
         <p>
-          I feel like I&apos;m a creativity-explorer and more open kind of
-          person, so sandbox and open world games are usually more of my
-          preference. Most of the times, I&apos;m mostly playing for the fun,
-          casually, not really in a competitive way, so my gameplay experience
-          tends to be more relaxed. You&apos;re probably going to see me playing
-          these titles more often.
+          I feel like I&apos;m a creativity-explorer and more open kind of person, so sandbox and open world games are usually more of my preference. Most of
+          the times, I&apos;m mostly playing for the fun, casually, not really in a competitive way, so my gameplay experience tends to be more relaxed.
+          You&apos;re probably going to see me playing these titles more often.
         </p>
 
         <section className={styles.row}>
@@ -38,9 +33,7 @@ export default function InterestsContent() {
             <label>Minecraft</label>
 
             <span className={styles.description}>
-              <span className={styles.caption}>
-                You might see me playing on these servers:
-              </span>
+              <span className={styles.caption}>You might see me playing on these servers:</span>
 
               <section className={styles.row}>
                 <span className={styles.subInfoCard}>
@@ -61,9 +54,7 @@ export default function InterestsContent() {
             <label>Roblox</label>
 
             <span className={styles.description}>
-              <span className={styles.caption}>
-                You might see me playing these games:
-              </span>
+              <span className={styles.caption}>You might see me playing these games:</span>
 
               <section className={styles.row}>
                 <span className={styles.subInfoCard}>
@@ -91,9 +82,7 @@ export default function InterestsContent() {
             <label>TETR.IO</label>
 
             <span className={styles.description}>
-              <span className={styles.caption}>
-                I&apos;m not very skilled though, but I find it fun!
-              </span>
+              <span className={styles.caption}>I&apos;m not very skilled though, but I find it fun!</span>
             </span>
           </span>
 
@@ -102,18 +91,12 @@ export default function InterestsContent() {
             <label>Among Us</label>
 
             <span className={styles.description}>
-              <span className={styles.caption}>
-                I usually prefer to play the Hide and Seek mode, but you might
-                see me on both.
-              </span>
+              <span className={styles.caption}>I usually prefer to play the Hide and Seek mode, but you might see me on both.</span>
             </span>
           </span>
         </section>
 
-        <p>
-          Followed by the ones I tend to play less frequently, when I&apos;m
-          just seeking for a different casual gameplay
-        </p>
+        <p>Followed by the ones I tend to play less frequently, when I&apos;m just seeking for a different casual gameplay</p>
 
         <section className={styles.row}>
           <span className={styles.infoCard}>
@@ -124,17 +107,12 @@ export default function InterestsContent() {
 
         <section className={styles.row}>
           <span className={styles.infoCard}>
-            <img
-              src="/assets/horizon_chase_turbo.jpg"
-              alt="Horizon Chase Turbo"
-            />
+            <img src="/assets/horizon_chase_turbo.jpg" alt="Horizon Chase Turbo" />
             <label>Horizon Chase</label>
 
             <span className={styles.description}>
               <span className={styles.caption}>
-                I finished the whole World Tour on Gold, completed all the
-                Resistence challenges, but I still have a mostly silver scoring
-                on the Tournaments.
+                I finished the whole World Tour on Gold, completed all the Resistence challenges, but I still have a mostly silver scoring on the Tournaments.
               </span>
             </span>
           </span>
@@ -152,9 +130,7 @@ export default function InterestsContent() {
 
             <span className={styles.description}>
               <span className={styles.caption}>
-                I&apos;m mostly on San Andreas and V/Online, though I&apos;m
-                more active on San Andreas and San Andreas&apos; online mods
-                (SA:MP, MTA).
+                I&apos;m mostly on San Andreas and V/Online, though I&apos;m more active on San Andreas and San Andreas&apos; online mods (SA:MP, MTA).
               </span>
             </span>
           </span>
@@ -167,11 +143,7 @@ export default function InterestsContent() {
 
         <p>Sometimes, I also play Valve games. Valve is nice.</p>
 
-        <p>
-          And finally, some honorable mentions. Games I don&apos;t play that
-          much, or even haven&apos;t played more than once, but are still
-          amazing
-        </p>
+        <p>And finally, some honorable mentions. Games I don&apos;t play that much, or even haven&apos;t played more than once, but are still amazing</p>
 
         <section className={styles.row}>
           <span className={styles.infoCard}>
@@ -199,17 +171,13 @@ export default function InterestsContent() {
     return (
       <>
         <p>
-          My taste on music is peculiar and eclectic. I go from soft and
-          tranquil to absolutely agitated. From the 80&apos;s to nowadays. From
-          popular songs to the ones you probably wouldn&apos;t even expect
-          hearing about in your entire life.
+          My taste on music is peculiar and eclectic. I go from soft and tranquil to absolutely agitated. From the 80&apos;s to nowadays. From popular songs to
+          the ones you probably wouldn&apos;t even expect hearing about in your entire life.
         </p>
 
         <p>
-          Given all of this, I can&apos;t really answer the question of
-          &quot;what kind of music do you like&quot; because it&apos;s such a
-          wide scope that I just can&apos;t tell, but I tried to separate below
-          a list of artists I think more of when the subject is about music.
+          Given all of this, I can&apos;t really answer the question of &quot;what kind of music do you like&quot; because it&apos;s such a wide scope that I
+          just can&apos;t tell, but I tried to separate below a list of artists I think more of when the subject is about music.
         </p>
 
         <section className={styles.row}>
@@ -293,10 +261,8 @@ export default function InterestsContent() {
         </section>
 
         <p>
-          Of course these aren&apos;t the only one artists I listen to, but
-          I&apos;m very &quot;trustworthy&quot; regarding these. If I get
-          engaged with an artist and their style, you&apos;re most likely to see
-          me constantly listening to them eventually.
+          Of course these aren&apos;t the only one artists I listen to, but I&apos;m very &quot;trustworthy&quot; regarding these. If I get engaged with an
+          artist and their style, you&apos;re most likely to see me constantly listening to them eventually.
         </p>
       </>
     );
@@ -306,29 +272,23 @@ export default function InterestsContent() {
     return (
       <>
         <p>
-          Who doesn&apos;t like to watch a movie, series or a YouTube video?
-          It&apos;s a nice way to have some fun, throw time away and even
-          sometimes learn something new.
+          Who doesn&apos;t like to watch a movie, series or a YouTube video? It&apos;s a nice way to have some fun, throw time away and even sometimes learn
+          something new.
         </p>
 
         <p>
-          In the same way as I feel like regarding music, I can&apos;t really
-          figure out a <i>&quot;favorite movie genre&quot;</i> or other labeling
-          mumbo-jumbo like this, I just get captivated by the content I&apos;m
-          consuming and that&apos;s it.
+          In the same way as I feel like regarding music, I can&apos;t really figure out a <i>&quot;favorite movie genre&quot;</i> or other labeling mumbo-jumbo
+          like this, I just get captivated by the content I&apos;m consuming and that&apos;s it.
         </p>
 
         <p>
-          But still, as it happens with music for me, I can try and list some of
-          the media and content creators that became an interest to me. Starting
-          off with individual content creators.
+          But still, as it happens with music for me, I can try and list some of the media and content creators that became an interest to me. Starting off with
+          individual content creators.
         </p>
 
         <p>
-          Documentary-like and story-telling style of videos are the ones I like
-          the most if you ask more regarding overall informational media. Some
-          of the creators I like a lot that make up this kind of content are
-          below, and I recommend you to check them all out
+          Documentary-like and story-telling style of videos are the ones I like the most if you ask more regarding overall informational media. Some of the
+          creators I like a lot that make up this kind of content are below, and I recommend you to check them all out
         </p>
 
         <section className={styles.row}>
@@ -345,10 +305,7 @@ export default function InterestsContent() {
 
         <section className={styles.row}>
           <span className={styles.infoCard}>
-            <img
-              src="/assets/kurzgesagt.png"
-              alt="Kurzgesagt - in a nutshell Logo"
-            />
+            <img src="/assets/kurzgesagt.png" alt="Kurzgesagt - in a nutshell Logo" />
             <label>Kurzgesagt</label>
           </span>
 
@@ -358,15 +315,7 @@ export default function InterestsContent() {
           </span>
         </section>
 
-        <p>
-          and as well, creators that approach other kind of scientific, logical
-          and curious topics like
-        </p>
-
-        <span className={styles.infoCard}>
-          <img src="/assets/mark_rober.jpg" alt="Mark Rober Logo" />
-          <label>Mark Rober</label>
-        </span>
+        <p>and as well, creators that approach other kind of scientific, logical and curious topics like</p>
 
         <span className={styles.infoCard}>
           <img src="/assets/manual_do_mundo.jpg" alt="Manual do Mundo Logo" />
@@ -376,31 +325,26 @@ export default function InterestsContent() {
         </span>
 
         <span className={styles.infoCard}>
-          <img
-            src="/assets/pura_fisica.jpg"
-            alt="Pura Física's Profile Picture"
-          />
+          <img src="/assets/pura_fisica.jpg" alt="Pura Física's Profile Picture" />
           <label>
             Pura Física <small>🇧🇷</small>
           </label>
         </span>
 
         <span className={styles.infoCard}>
-          <img
-            src="/assets/estude_matematica.jpg"
-            alt="Estude Matemática Logo"
-          />
+          <img src="/assets/estude_matematica.jpg" alt="Estude Matemática Logo" />
           <label>
             Estude Matemática <small>🇧🇷</small>
           </label>
         </span>
 
+        <p>Of course, there are way more channels I watch, but these are pretty much the ones.</p>
+
         <hr />
 
         <p>
-          Apart from the YouTube world, movies and series that are more into
-          sci-fi, enigmatic, documental, action, exploration or just overall{" "}
-          <i>cool</i> content are also of my interest, like
+          Apart from the YouTube world, movies and series that are more into sci-fi, enigmatic, documental, action, exploration or just overall <i>cool</i>{" "}
+          content are also of my interest, like
         </p>
 
         <section className={styles.row}>
@@ -467,6 +411,16 @@ export default function InterestsContent() {
           </span>
         </section>
 
+        <section className={styles.row}>
+          <span className={styles.infoCard}>
+            <label>The Big Bang Theory</label>
+          </span>
+
+          <span className={styles.infoCard}>
+            <label>Young Sheldon</label>
+          </span>
+        </section>
+
         <p>and some more young content like</p>
 
         <section className={styles.row}>
@@ -495,21 +449,14 @@ export default function InterestsContent() {
           </span>
         </section>
 
-        <p>
-          Among other types of content, are just comedy and overall time-wasting
-          stuff.
-        </p>
+        <p>Among other types of content, are just comedy and overall time-wasting stuff.</p>
       </>
     );
   };
 
   return (
     <>
-      <p>
-        As pretty much any other person you might know, I also have my
-        interests. While most people won&apos;t care, I find it nice to have
-        that here.
-      </p>
+      <p>As pretty much any other person you might know, I also have my interests. While most people won&apos;t care, I find it nice to have that here.</p>
 
       <noscript>
         <Alert color={colors.accent} icon={<Icon i="warning" />}>

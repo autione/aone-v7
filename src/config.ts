@@ -8,5 +8,5 @@ export const firebaseConfig = {
 };
 
 export const meta = {
-  version: "v7.3.0",
+  version: "v7.3.2",
 };

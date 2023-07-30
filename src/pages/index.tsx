@@ -1,6 +1,4 @@
 /* eslint-disable @next/next/no-img-element */
-import fetch from "node-fetch";
-
 import { NextPageContext } from "next";
 import { useEffect, useState } from "react";
 
@@ -18,12 +16,12 @@ import IceCreamContent from "../components/views/IceCream";
 
 import styles from "../styles/Home.module.scss";
 
-import { OAuthService, Post } from "../types";
+import { Post } from "../types";
 import { firebaseConfig, meta } from "../config";
 
 import { initializeApp } from "firebase/app";
-import { getAuth, initializeAuth, signInWithEmailAndPassword } from "firebase/auth";
-import { collection, doc, getDoc, getDocs, getFirestore, orderBy, query, setDoc } from "firebase/firestore";
+import { initializeAuth } from "firebase/auth";
+import { collection, getDocs, getFirestore, orderBy, query } from "firebase/firestore";
 
 import { useModalsContext } from "../components/contexts/Modals";
 
@@ -31,29 +29,9 @@ import Button from "../components/Button";
 
 import A90 from "../components/extras/A90";
 
-interface Props {
-  status: {
-    discord: {
-      active: boolean;
-      text: string;
-      avatarURL: string;
-    };
-    spotify: {
-      static: boolean;
-      active: boolean;
-      text: string[];
-      icon: string;
-      id?: string;
-      timestring: string;
-    };
-  };
-  posts: {
-    success: boolean;
-    data: Post[];
-  };
-}
+export default function Home(props: { posts: { success: boolean; data: Post[] } }) {
+  const modalsContext = useModalsContext();
 
-export default function Home(props: Props) {
   const names = ["AutiOne", "Davi Rafael"];
   const [nameIndex, setNameIndex] = useState(0);
   const [name, setName] = useState(names[nameIndex]);
@@ -66,16 +44,7 @@ export default function Home(props: Props) {
     anoventa: false,
   });
   const featureCodes: { [key: string]: string } = {
-    iceCream: [
-      "arrowup",
-      "arrowup",
-      "arrowdown",
-      "arrowdown",
-      "arrowleft",
-      "arrowright",
-      "arrowleft",
-      "arrowright",
-    ].join(""),
+    iceCream: ["arrowup", "arrowup", "arrowdown", "arrowdown", "arrowleft", "arrowright", "arrowleft", "arrowright"].join(""),
     senah: "senah",
     aninety: "stop",
     anoventa: "pare",
@@ -148,7 +117,145 @@ export default function Home(props: Props) {
     setName(newName);
   };
 
-  const modalsContext = useModalsContext();
+  ///
+
+  const [discordChip, setDiscordChip] = useState({
+    active: false,
+    label: "Loading",
+    avatar: "",
+  });
+
+  const fetchDiscord = () => {
+    fetch("/api/external/discord")
+      .then((r) => r.json())
+      .then((json) => {
+        if (!json.success)
+          setDiscordChip({
+            active: false,
+            label: "Error",
+            avatar: "",
+          });
+
+        setDiscordChip({
+          active: json.data.status !== "offline",
+          label:
+            {
+              online: "Online",
+              idle: "Away",
+              dnd: "Busy",
+              offline: "Offline",
+            }[json.data.status as string] || "Unknown",
+          avatar: json.data.avatar,
+        });
+      })
+      .catch((err) => {
+        console.error("Failed to fetch Discord activity:", err);
+        setDiscordChip({
+          active: false,
+          label: "Error",
+          avatar: "",
+        });
+      });
+  };
+
+  ///
+
+  // lmao yeah this bit of code is a bit peculiar
+  const [matrixAvatar, setMatrixAvatar] = useState("");
+  const [mastodonAvatar, setMastodonAvatar] = useState("");
+  useEffect(() => {
+    fetch("https://mastodon.social/api/v1/accounts/107168597662288446")
+      .then((r) => r.json())
+      .then((data) => setMastodonAvatar(data.avatar || ""))
+      .catch(console.error);
+
+    fetch("https://matrix.org/_matrix/client/v3/profile/@autione:envs.net/avatar_url")
+      .then((r) => r.json())
+      .then((data) => {
+        const [server, hash] = data.avatar_url.replace("mxc://", "").split("/");
+        setMatrixAvatar(`https://matrix-client.matrix.org/_matrix/media/v3/thumbnail/${server}/${hash}?width=128&height=128`);
+      })
+      .catch(console.error);
+  }, []);
+
+  ///
+
+  const [spotifyChip, setSpotifyChip] = useState({
+    active: false,
+    icon: "pending",
+    static: true,
+    label: ["Loading", ""],
+  });
+  const fetchSpotify = () => {
+    fetch("/api/external/spotify")
+      .then((r) => r.json())
+      .then((json) => {
+        if (!json.success)
+          return setSpotifyChip({
+            active: false,
+            label: ["Error", ""],
+            static: true,
+            icon: "error",
+          });
+
+        let label: [string, string];
+
+        const { session } = json.data;
+
+        if (!json.data.active)
+          return setSpotifyChip({
+            active: false,
+            label: ["Inactive", ""],
+            static: true,
+            icon: "schedule",
+          });
+
+        switch (session.type) {
+          case "track":
+            label = [`${session.artists.join(", ")} - ${session.track}`, `in "${session.album}"`];
+            break;
+
+          case "podcast":
+            label = ["Listening to a podcast", ""];
+            break;
+
+          case "local":
+            label = [`${session.artists.join(", ")} - ${session.track}`, "from a local file"];
+            break;
+
+          case "private":
+            label = ["Listening privately", ""];
+            break;
+
+          default:
+            label = ["Unknown", ""];
+            break;
+        }
+
+        setSpotifyChip({
+          active: true,
+          label,
+          static: !label[1],
+          icon: session.playing ? "play_circle" : "pause_circle",
+        });
+      })
+      .catch((err) => {
+        console.error("Failed to fetch Spotify activity:", err);
+        setSpotifyChip({
+          active: false,
+          label: ["Error", ""],
+          static: true,
+          icon: "error",
+        });
+      });
+  };
+
+  useEffect(() => {
+    fetchDiscord();
+    fetchSpotify();
+  }, []);
+
+  ///
 
   return (
     <>
@@ -176,31 +283,21 @@ export default function Home(props: Props) {
                     </span>
                   </summary>
                 </details>
-                <details
-                  className={`${styles.chip} ${!props.status.discord.active ? styles.inactive : ""}`}
-                  title="Discord"
-                >
+                <details className={`${styles.chip} ${!discordChip.active ? styles.inactive : ""}`} title="Discord">
                   <summary>
-                    <img src="/discord.svg" alt="Discord Logo" />
+                    <img src="/brands/discord.svg" alt="Discord Logo" />
                     <span className={styles.labels}>
-                      <span>{props.status.discord.text}</span>
+                      <span>{discordChip.label}</span>
                     </span>
                   </summary>
                 </details>
-                <details
-                  className={`${styles.chip} ${!props.status.spotify.active ? styles.inactive : ""}`}
-                  title="Spotify"
-                >
+                <details className={`${styles.chip} ${!spotifyChip.active ? styles.inactive : ""}`} title="Spotify">
                   <summary>
-                    <img src="/spotify.svg" alt="Spotify Logo" />
-                    <Icon i={props.status.spotify.icon} />
-                    <span
-                      className={`${styles.labels} ${chipSwap ? styles.swap : ""} ${
-                        !props.status.spotify.static ? styles.allowSwap : ""
-                      }`}
-                    >
-                      <span title={props.status.spotify.text[0]}>{props.status.spotify.text[0]}</span>
-                      <span title={props.status.spotify.text[1]}>{props.status.spotify.text[1]}</span>
+                    <img src="/brands/spotify.svg" alt="Spotify Logo" />
+                    <Icon i={spotifyChip.icon} />
+                    <span className={`${styles.labels} ${chipSwap ? styles.swap : ""} ${!spotifyChip.static ? styles.allowSwap : ""}`}>
+                      <span title={spotifyChip.label[0]}>{spotifyChip.label[0]}</span>
+                      <span title={spotifyChip.label[1]}>{spotifyChip.label[1]}</span>
                     </span>
                   </summary>
                 </details>
@@ -209,56 +306,32 @@ export default function Home(props: Props) {
           </section>
 
           <section className={styles.shortcuts}>
-            <a
-              href="#window-about"
-              className={styles.shortcut}
-              style={{ "--accent": "#9281ff", "--background": "#24203d" } as any}
-            >
+            <a href="#window-about" className={styles.shortcut} style={{ "--accent": "#9281ff", "--background": "#24203d" } as any}>
               <Icon i="person" />
               <label>About</label>
             </a>
 
-            <a
-              href="#window-projects"
-              className={styles.shortcut}
-              style={{ "--accent": "#2eeba7", "--background": "#0e3426" } as any}
-            >
+            <a href="#window-projects" className={styles.shortcut} style={{ "--accent": "#2eeba7", "--background": "#0e3426" } as any}>
               <Icon i="history_edu" />
               <label>Projects</label>
             </a>
 
-            <a
-              href="#window-socials"
-              className={styles.shortcut}
-              style={{ "--accent": "#fd467d", "--background": "#39101c" } as any}
-            >
+            <a href="#window-socials" className={styles.shortcut} style={{ "--accent": "#fd467d", "--background": "#39101c" } as any}>
               <Icon i="forum" />
               <label>Socials</label>
             </a>
 
-            <a
-              href="#window-notes"
-              className={styles.shortcut}
-              style={{ "--accent": "#fff281", "--background": "#2e2b16" } as any}
-            >
+            <a href="#window-notes" className={styles.shortcut} style={{ "--accent": "#fff281", "--background": "#2e2b16" } as any}>
               <Icon i="article" />
               <label>Notes</label>
             </a>
 
-            <a
-              href="#window-interests"
-              className={styles.shortcut}
-              style={{ "--accent": "#ff8181", "--background": "#2e1616" } as any}
-            >
+            <a href="#window-interests" className={styles.shortcut} style={{ "--accent": "#ff8181", "--background": "#2e1616" } as any}>
               <Icon i="thumb_up" />
               <label>Interests</label>
             </a>
 
-            <a
-              href="#window-fellows"
-              className={styles.shortcut}
-              style={{ "--accent": "#ff81d4", "--background": "#351a2c" } as any}
-            >
+            <a href="#window-fellows" className={styles.shortcut} style={{ "--accent": "#ff81d4", "--background": "#351a2c" } as any}>
               <Icon i="heart_plus" />
               <label>Fellows</label>
             </a>
@@ -295,12 +368,12 @@ export default function Home(props: Props) {
                           ))}
                         </div>
 
-                        <section className={styles.notice} style={{ backgroundColor: "#ff4f6f66" }}>
+                        <section className={styles.notice} style={{ backgroundColor: "#8f2f4f88" }}>
                           <h1>
                             <Icon i="warning" /> Content notice
                           </h1>
-                          Some features/easter eggs might have loud noises and slightly scary content. It&apos;s nothing
-                          too graphical or violent, but I think it&apos;s worth noting.
+                          Some features/easter eggs might have loud noises and slightly scary content. It&apos;s nothing too graphical or violent, but I think
+                          it&apos;s worth noting.
                         </section>
                       </>
                     ),
@@ -317,27 +390,11 @@ export default function Home(props: Props) {
           </section>
         </header>
 
-        {/* {(host?.name === "ios" ||
-          host?.name === "ios-webview" ||
-          host?.name === "edge-ios" ||
-          host?.name === "safari") && (
-          <section className={styles.notice}>
-            <h1>
-              <Icon i="warning" /> Your experience might be affected
-            </h1>
-            It has been detected that you are using Safari or your browser is
-            overall using WebKit. This is known to be causing layout problems in
-            my website, such as the collapsible parts showing up the menu
-            arrows. While the problem is not solved, I recommend you to use
-            another browser navigating here.
-          </section>
-        )} */}
-
         {features.senah && (
           <div className={styles.senah}>
-            <img src="images/senah.png" alt="Senah!!!" />
+            <img src="/images/senah.png" alt="Senah!!!" />
             <audio
-              src="vine-boom.mp3"
+              src="/audio/vine-boom.mp3"
               autoPlay
               onEnded={() => {
                 setFeatures({
@@ -376,9 +433,8 @@ export default function Home(props: Props) {
             <h1>
               <Icon i="warning" /> Your experience might be affected
             </h1>
-            It looks like you don&apos;t have JavaScript enabled in your browser. While this won&apos;t make the site
-            inacessible, some features might not work properly with it disabled. Feel free to continue here without
-            enabling JavaScript too.
+            It looks like you don&apos;t have JavaScript enabled in your browser. While this won&apos;t make the site inacessible, some features might not work
+            properly with it disabled. Feel free to continue here without enabling JavaScript too.
           </section>
         </noscript>
 
@@ -406,11 +462,7 @@ export default function Home(props: Props) {
               id="notes"
             >
               <NotesContent posts={props.posts.data} />
-              {!props.posts.success && (
-                <p>
-                  An error ocurred while fetching the posts. This is a server-side fault, so please report this to me.
-                </p>
-              )}
+              {!props.posts.success && <p>An error ocurred while fetching the posts. This is a server-side fault, so please report this to me.</p>}
             </Window>
 
             <Window
@@ -467,7 +519,9 @@ export default function Home(props: Props) {
               <SocialsContent
                 avatars={{
                   github: "https://github.com/autione.png?size=128",
-                  discord: props.status.discord.avatarURL,
+                  discord: discordChip.avatar,
+                  mastodon: mastodonAvatar,
+                  matrix: matrixAvatar,
                 }}
               />
             </Window>
@@ -499,39 +553,12 @@ export default function Home(props: Props) {
         </main>
 
         <small className={styles.copyright}>
-          &copy; AutiOne · 2022
+          &copy; AutiOne · {new Date().getFullYear()}
           <br />
           {meta.version}-{process.env.NODE_ENV} · Made in Brazil with Next.js
           <br />
           <details>
             <summary>Licenses and Attributions</summary>
-
-            <br />
-
-            {/* <a
-            href="https://creativecommons.org/licenses/by-sa/4.0/"
-            rel="noreferrer"
-            target="_blank"
-          >
-            <img src="/cc-by-sa.svg" alt="CC-BY-SA" width="25%" />
-          </a>
-          <br />
-          <span>Some rights reserved</span>
-          <br />
-          <small>
-            Other resources by me are under{" "}
-            <a
-              href="https://www.gnu.org/licenses/gpl-3.0.en.html"
-              target="_blank"
-              rel="noreferrer"
-            >
-              GPLv3
-            </a>
-            -or-later unless stated otherwise
-          </small>
-
-          <br />
-          <br /> */}
 
             <span>
               Interface icons by Google&apos;s Material Symbols under{" "}
@@ -564,6 +591,10 @@ export default function Home(props: Props) {
             <br />
             <small>OneShot reference unintentional</small>
           </details>
+          <br />
+          <big style={{ color: "#fff" }}>
+            Basic visit data is collected via Vercel Web Analytics. <a href="https://vercel.com/docs/concepts/analytics/privacy-policy">Privacy policy</a>
+          </big>
         </small>
       </div>
     </>
@@ -577,168 +608,12 @@ export async function getServerSideProps(context: NextPageContext) {
   const db = getFirestore(firebase);
 
   initializeAuth(firebase);
-  const authProvider = getAuth();
-
-  let spotifyService: OAuthService | undefined = undefined;
-  const spotifyServiceAction = {
-    abort: false,
-    status: ["", ""],
-    icon: "info",
-    sourceId: "",
-    local: false,
-  };
-
-  const discordServiceAction = {
-    active: true,
-    text: "",
-    avatarURL: "",
-  };
 
   const postServiceAction: { success: boolean; data: Post[] } = {
     success: false,
     data: [],
   };
 
-  // Spot-spottie-spotify
-  try {
-    await signInWithEmailAndPassword(authProvider, String(process.env.FLAKE_USER), String(process.env.FLAKE_PASS));
-
-    const ref = doc(db, "oauth-services", "spotify");
-    const snap = await getDoc(ref);
-    const spotify = snap.data() as OAuthService;
-
-    // mumbo jumbo to refresh token
-    if (spotify) {
-      if (Date.now() >= spotify.data.expiresAt) {
-        try {
-          const bodyData: { [k: string]: string } = {
-            grant_type: "refresh_token",
-            refresh_token: spotify.data.refreshToken,
-          };
-
-          const formBody = [];
-          for (const property in bodyData)
-            formBody.push(`${encodeURIComponent(property)}=${encodeURIComponent(bodyData[property])}`);
-
-          const res = await fetch("https://accounts.spotify.com/api/token", {
-            method: "POST",
-            headers: {
-              "content-type": "application/x-www-form-urlencoded;charset=UTF-8",
-              authorization: `Basic ${Buffer.from(
-                `${process.env.SPOTIFY_OAUTH_CLIENT_ID}:${process.env.SPOTIFY_OAUTH_CLIENT_SECRET}`
-              ).toString("base64")}`,
-            },
-            body: formBody.join("&"),
-          });
-
-          if (res.status !== 200) {
-            console.log(await res.text());
-            throw new Error("Spotify OAuth request failed.");
-          }
-
-          const oauthData = (await res.json()) as {
-            access_token: string;
-            token_type: string;
-            expires_in: number;
-            scope: string;
-          };
-
-          const newData = {
-            accessToken: oauthData.access_token,
-            tokenType: oauthData.token_type,
-            expiresIn: oauthData.expires_in,
-            expiresAt: Date.now() + oauthData.expires_in * 1000,
-            refreshToken: spotify.data.refreshToken,
-            scope: oauthData.scope,
-          };
-
-          await setDoc(ref, {
-            data: newData,
-          });
-          spotify.data = newData;
-        } catch (err) {
-          console.error("Failed to request Spotify token refresh", err);
-          spotifyServiceAction.abort = true;
-          spotifyServiceAction.status = ["Failed", ""];
-        }
-      }
-
-      spotifyService = spotify;
-    }
-  } catch (err) {
-    console.error("Spotify service database request failed:", err);
-    spotifyServiceAction.abort = true;
-    spotifyServiceAction.icon = "error";
-    spotifyServiceAction.status = ["Auth error", ""];
-  }
-
-  if (spotifyService && !spotifyServiceAction.abort)
-    try {
-      const res = await fetch("https://api.spotify.com/v1/me/player", {
-        headers: {
-          "content-type": "application/json",
-          authorization: `${spotifyService.data.tokenType} ${spotifyService.data.accessToken}`,
-        },
-      });
-
-      if (res.status === 200) {
-        const data = (await res.json()) as any;
-
-        if (data.device.is_private_session) {
-          spotifyServiceAction.status = ["On private session", ""];
-          spotifyServiceAction.icon = "lock";
-        } else {
-          spotifyServiceAction.status =
-            data.currently_playing_type === "track"
-              ? [
-                  `${data.item.artists.map((artist: any) => artist.name).join(", ")} - ${data.item.name}`,
-                  `in "${data.item.album.name}"`,
-                ]
-              : ["Listening to a podcast", ""];
-          spotifyServiceAction.icon = data.is_playing ? "play_arrow" : "pause";
-          spotifyServiceAction.sourceId = data.item?.id || false;
-
-          if (data.item?.is_local) {
-            spotifyServiceAction.status[1] = "From a local file";
-            spotifyServiceAction.local = true;
-          }
-        }
-      } else if (res.status === 204) {
-        spotifyServiceAction.status = ["No sessions active", ""];
-        spotifyServiceAction.icon = "power_off";
-      } else {
-        console.error("Spotify data fetch returned error code", await res.text());
-        spotifyServiceAction.status = ["Request error code", ""];
-      }
-    } catch (err) {
-      console.error("Spotify data fetch failed", err);
-      spotifyServiceAction.status = ["Fetch error", ""];
-    }
-
-  // Discord
-  try {
-    const res = await fetch(String(process.env.DISCORD_WIDGET_ENDPOINT));
-    const data: any = await res.json();
-
-    if (data.members.length > 0) {
-      discordServiceAction.text =
-        {
-          online: "Online",
-          idle: "Away",
-          dnd: "Busy",
-        }[data.members[0].status as string] || data.members[0].status;
-      discordServiceAction.avatarURL = data.members[0].avatar_url as string;
-    } else {
-      discordServiceAction.text = "Offline";
-      discordServiceAction.active = false;
-    }
-  } catch (err) {
-    console.error("Discord data fetch failed", err);
-    discordServiceAction.active = false;
-    discordServiceAction.text = "Fetch error";
-  }
-
-  // Notes
   try {
     const ref = query(collection(db, "notes"), orderBy("created_at", "desc"));
     const snap = await getDocs(ref);
@@ -758,23 +633,7 @@ export async function getServerSideProps(context: NextPageContext) {
 
   return {
     props: {
-      status: {
-        discord: discordServiceAction,
-        spotify: {
-          static: spotifyServiceAction.local
-            ? false
-            : !spotifyServiceAction.sourceId || !spotifyServiceAction.status[1],
-          active: !spotifyServiceAction.abort && spotifyServiceAction.local ? true : !!spotifyServiceAction.sourceId,
-          text: spotifyServiceAction.status,
-          icon: spotifyServiceAction.icon,
-          id: spotifyServiceAction.sourceId,
-          timestring: new Date().toLocaleString(["en-US"], {
-            dateStyle: "long",
-            timeStyle: "long",
-          }),
-        },
-      },
-      posts: { ...postServiceAction },
+      posts: postServiceAction,
     },
   };
 }

@@ -10,72 +10,18 @@ export default function SocialsContent({ avatars }: { avatars: { [key: string]: 
         to get in touch with me. Beware of randomness.
         <br />
         <br />
-        Click a card to visit the page.
+        Sorted by most preferred to least preferred. Click a card to visit the page.
       </p>
-      <a href="https://twitter.com/AutiOne_" rel="noreferrer" target="_blank">
-        <div className={styles.socialCard}>
-          <i>
-            <img src="/twitter.svg" alt="Twitter Logo" />
-            <Image className={styles.avatar} src="/pieces/twitter.svg" alt="Twitter Profile Picture" layout="fill" />
-          </i>
-          <main className={styles.content}>
-            <span className={styles.textContent}>
-              <span className={styles.title}>Twitter</span>
-              @AutiOne_
-            </span>
-          </main>
-        </div>
-      </a>
-      <a href="https://reddit.com/u/FiveManiaFifty" rel="noreferrer" target="_blank">
-        <div className={styles.socialCard}>
-          <i>
-            <img src="/reddit.svg" alt="Reddit Logo" />
-          </i>
-          <main className={styles.content}>
-            <span className={styles.textContent}>
-              <span className={styles.title}>Reddit</span>
-              u/FiveManiaFifty
-            </span>
-          </main>
-        </div>
-      </a>
       <a href="https://discord.com/users/226484318959173632" rel="noreferrer" target="_blank">
         <div className={styles.socialCard}>
           <i>
-            <img src="/discord.svg" alt="Discord Logo" />
-            <Image className={styles.avatar} src={avatars.discord} alt="Discord Profile Picture" layout="fill" />
+            <img src="/brands/discord.svg" alt="Discord Logo" />
+            {avatars.discord && <Image className={styles.avatar} src={avatars.discord} alt="Discord Profile Picture" layout="fill" />}
           </i>
           <main className={styles.content}>
             <span className={styles.textContent}>
               <span className={styles.title}>Discord</span>
-              AutiOne#4827
-            </span>
-          </main>
-        </div>
-      </a>
-      <a href="https://ch.tetr.io/u/autione" rel="noreferrer" target="_blank">
-        <div className={styles.socialCard}>
-          <i>
-            <img src="/tetrio-mono.svg" alt="TETR.IO Logo" />
-          </i>
-          <main className={styles.content}>
-            <span className={styles.textContent}>
-              <span className={styles.title}>TETR.IO</span>
-              <span>AUTIONE</span>
-            </span>
-          </main>
-        </div>
-      </a>
-      <a href="https://github.com/AutiOne" rel="noreferrer" target="_blank">
-        <div className={styles.socialCard}>
-          <i>
-            <img src="/github.svg" alt="GitHub Logo" />
-            <Image className={styles.avatar} src={avatars.github} alt="GitHub Profile Picture" layout="fill" />
-          </i>
-          <main className={styles.content}>
-            <span className={styles.textContent}>
-              <span className={styles.title}>GitHub</span>
-              AutiOne
+              @autione
             </span>
           </main>
         </div>
@@ -83,7 +29,8 @@ export default function SocialsContent({ avatars }: { avatars: { [key: string]: 
       <a href="https://matrix.to/#/@autione:envs.net" rel="noreferrer" target="_blank">
         <div className={styles.socialCard}>
           <i>
-            <img src="/matrix.svg" alt="Matrix Logo" />
+            <img src="/brands/matrix.svg" alt="Matrix Logo" />
+            {avatars.matrix && <Image className={styles.avatar} src={avatars.matrix} alt="Matrix Profile Picture" layout="fill" />}
           </i>
           <main className={styles.content}>
             <span className={styles.textContent}>
@@ -95,9 +42,65 @@ export default function SocialsContent({ avatars }: { avatars: { [key: string]: 
           </main>
         </div>
       </a>
+      <a href="https://github.com/AutiOne" rel="noreferrer" target="_blank">
+        <div className={styles.socialCard}>
+          <i>
+            <img src="/brands/github.svg" alt="GitHub Logo" />
+            {avatars.github && <Image className={styles.avatar} src={avatars.github} alt="GitHub Profile Picture" layout="fill" />}
+          </i>
+          <main className={styles.content}>
+            <span className={styles.textContent}>
+              <span className={styles.title}>GitHub</span>
+              AutiOne
+            </span>
+          </main>
+        </div>
+      </a>
+      <a href="https://mastodon.social/@autione@mastodon.social" rel="noreferrer" target="_blank">
+        <div className={styles.socialCard}>
+          <i>
+            <img src="/brands/mastodon.svg" alt="Mastodon Logo" />
+            {avatars.mastodon && <Image className={styles.avatar} src={avatars.mastodon} alt="Mastodon Profile Picture" layout="fill" />}
+          </i>
+          <main className={styles.content}>
+            <span className={styles.textContent}>
+              <span className={styles.title}>Mastodon</span>
+              autione@mastodon.social
+            </span>
+          </main>
+        </div>
+      </a>
+      <a href="https://ch.tetr.io/u/autione" rel="noreferrer" target="_blank">
+        <div className={styles.socialCard}>
+          <i>
+            <img src="/brands/tetrio-mono.svg" alt="TETR.IO Logo" />
+          </i>
+          <main className={styles.content}>
+            <span className={styles.textContent}>
+              <span className={styles.title}>TETR.IO</span>
+              <span>
+                AUTIONE <small>(not really a social profile lol)</small>
+              </span>
+            </span>
+          </main>
+        </div>
+      </a>
+      <a href="https://reddit.com/u/FiveManiaFifty" rel="noreferrer" target="_blank">
+        <div className={styles.socialCard}>
+          <i>
+            <img src="/brands/reddit.svg" alt="Reddit Logo" />
+          </i>
+          <main className={styles.content}>
+            <span className={styles.textContent}>
+              <span className={styles.title}>Reddit</span>
+              u/FiveManiaFifty
+            </span>
+          </main>
+        </div>
+      </a>
       <div className={`${styles.socialCard} ${styles.noElevation}`}>
         <i>
-          <img src="/mail.svg" alt="Envelope Icon" />
+          <img src="/brands/mail.svg" alt="Envelope Icon" />
         </i>
         <main className={styles.content}>
           <span className={styles.textContent}>

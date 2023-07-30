@@ -106,10 +106,10 @@ export default function A90({ end, brazilMode }: { end: () => void; brazilMode: 
 
   return state >= 0 ? (
     <>
-      {audioSource === 0 && <audio src={brazilMode ? "a90-b.mp3" : "a90.mp3"} autoPlay onEnded={end} />}
+      {audioSource === 0 && <audio src={`/audio/${brazilMode ? "a90-b.mp3" : "a90.mp3"}`} autoPlay onEnded={end} />}
       {audioSource === 1 && (
         <audio
-          src={brazilMode ? "a90-b-hit.mp3" : "a90-hit.mp3"}
+          src={`/audio/${brazilMode ? "a90-b-hit.mp3" : "a90-hit.mp3"}`}
           autoPlay
           onTimeUpdate={(e) => {
             const target = e.target as HTMLAudioElement;
@@ -123,7 +123,7 @@ export default function A90({ end, brazilMode }: { end: () => void; brazilMode: 
       )}
       {audioSource === 2 && (
         <audio
-          src={brazilMode ? "curious-b.mp3" : "curious.mp3"}
+          src={`/audio/${brazilMode ? "curious-b.mp3" : "curious.mp3"}`}
           autoPlay
           onTimeUpdate={(e) => {
             const target = e.target as HTMLAudioElement;
