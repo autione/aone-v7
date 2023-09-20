@@ -28,8 +28,9 @@ main.backdrop {
     opacity: 0;
 
     & > .window {
-      transform: scale(0.9);
-      transition: transform cubic-bezier(0.32, 0, 0.67, 0) 0.2s;
+      translate: 0 2rem;
+      scale: 0.9;
+      transition: translate linear 2s, scale cubic-bezier(0.64, 0, 0.78, 0) 0.2s;
     }
 
     transition: opacity 0.3s;
@@ -80,8 +81,8 @@ main.backdrop {
       top: 0;
     }
 
-    transform: scale(1);
-    transition: box-shadow 0.3s, transform cubic-bezier(0.25, 1, 0.5, 1) 0.4s;
+    translate: 0 0rem;
+    transition: box-shadow 0.3s, translate cubic-bezier(0.25, 1, 0.5, 1) 0.4s;
   }
 
   @media only screen and (max-width: 500px) {
@@ -134,13 +135,7 @@ main.backdrop {
     width: calc(100% + var(--cast));
     height: calc(100% + calc(var(--cast) / 2));
 
-    background: repeating-linear-gradient(
-      -45deg,
-      var(--transparent-accent) 0,
-      var(--transparent-accent) 8px,
-      #0000 8px,
-      #0000 16px
-    );
+    background: repeating-linear-gradient(-45deg, var(--transparent-accent) 0, var(--transparent-accent) 8px, #0000 8px, #0000 16px);
     background-size: 200% 200%;
 
     z-index: -1;

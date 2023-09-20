@@ -111,6 +111,19 @@ export default function FellowsContent() {
           ],
         },
         {
+          id: "gabs",
+          name: "Gabs",
+          pseudonym: "theocacao",
+          description: "Biggest Lee Arknights fan ever",
+          links: [
+            {
+              icon: "sticky_note_2",
+              text: "Twitter",
+              to: "https://twitter.com/Gabsawa",
+            },
+          ],
+        },
+        {
           id: "luzinu",
           pseudonym: "Luzinu",
           description: "Auau!",
@@ -156,7 +169,14 @@ export default function FellowsContent() {
         <section style={{ display: "flex", flexDirection: "column", gap: "1rem" }} key={`fellows-col-${i}`}>
           <h2 style={{ padding: 0, margin: 0 }}>{collection.label}</h2>
           {collection.people.map((person, j) => (
-            <div className={styles.userCard} key={`fellows-prs-${j}`}>
+            <div
+              onClick={() => {
+                if (person.id === "gabs" && typeof window !== "undefined") new Audio("/audio/gabs-meow.mp3").play();
+              }}
+              className={styles.userCard}
+              key={`fellows-prs-${j}`}
+              style={person.id === "gabs" ? { userSelect: "none", cursor: "pointer" } : {}}
+            >
               <Image src={`/profiles/${person.id}.png`} alt={person.name || person.pseudonym} className={styles.avatar} width={96} height={96} />
               <main className={styles.content}>
                 <span className={styles.textContent}>

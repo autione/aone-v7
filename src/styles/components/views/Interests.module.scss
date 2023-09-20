@@ -107,8 +107,7 @@
     color: #fff;
 
     border: 5px solid var(--accent);
-    // box-shadow: 5px 5px 0 var(--transparent-accent);
-    box-shadow: 0 10rem 5rem 5rem #000a;
+    box-shadow: 0 25rem 2.5rem 25rem #000a;
 
     transition: transform 0.3s, opacity 0.2s;
     transform: translateY(90%);

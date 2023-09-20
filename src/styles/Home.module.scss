@@ -39,6 +39,46 @@
   }
 }
 
+.gabs {
+  display: flex;
+
+  justify-content: center;
+
+  align-items: center;
+
+  position: fixed;
+
+  left: 0;
+
+  top: 0;
+
+  width: 100%;
+
+  height: 100%;
+
+  background-color: #fff;
+
+  z-index: 99999;
+
+  animation-name: alarm;
+
+  animation-duration: 4s;
+
+  animation-timing-function: linear;
+
+  animation-fill-mode: forwards;
+
+  pointer-events: none;
+
+  img {
+    width: 100%;
+
+    height: 100%;
+
+    object-fit: cover;
+  }
+}
+
 @keyframes boom {
   0% {
     opacity: 0.5;
@@ -46,6 +86,36 @@
 
   100% {
     opacity: 0;
+  }
+}
+
+@keyframes alarm {
+  0% {
+    opacity: 0.5;
+
+    scale: 1;
+    translate: 0 0;
+  }
+
+  50% {
+    opacity: 0;
+
+    scale: 1;
+    translate: 0 0;
+  }
+
+  50.01% {
+    opacity: 1;
+
+    scale: 1.5;
+    translate: -15rem -7.5rem;
+  }
+
+  100% {
+    opacity: 0;
+
+    scale: 1.5;
+    translate: -15rem -7.5rem;
   }
 }
 
@@ -484,8 +554,7 @@ small.copyright {
 
   width: 100%;
 
-  background: repeating-linear-gradient(-45deg, var(--stripe-tint) 0, var(--stripe-tint) 8px, #0000 8px, #0000 16px),
-    var(--background);
+  background: repeating-linear-gradient(-45deg, var(--stripe-tint) 0, var(--stripe-tint) 8px, #0000 8px, #0000 16px), var(--background);
 
   display: flex;
   flex-direction: column;

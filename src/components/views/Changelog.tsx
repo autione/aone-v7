@@ -1,10 +1,15 @@
 import styles from "../../styles/components/views/Changelog.module.scss";
+import Icon from "../Icon";
+import { useModalsContext } from "../contexts/Modals";
+import PopupComparison from "../extras/PopupComparison";
 
 export default function ChangelogContent({ version }: { version: string }) {
   const colors = {
     accent: "#ad82ff",
     background: "#26193d",
   };
+
+  const modalsContext = useModalsContext();
 
   return (
     <>
@@ -13,28 +18,35 @@ export default function ChangelogContent({ version }: { version: string }) {
       </p>
       <ul className={styles.list}>
         <li>
-          <label>Spotify chip now displays private sessions, podcast listening and inactive sessions properly;</label>
-        </li>
-        <li>
-          <label>Replaced Twitter (or X, idk lol) with Mastodon;</label>
-        </li>
-        <li>
-          <label>Sorted socials by most preferred to least preferred;</label>
-        </li>
-        <li>
-          <label>Socials with avatars now animate slightly differently;</label>
+          <label>Minor enhancements and changes to Interests;</label>
         </li>
         <li>
           <label>
-            Site analytics are now collected using Vercel Web Analytics;
-            <br />
-            <small>
-              It only contains basic visit data, for making up interesting data such as how many people are visting, and what are they looking for on the
-              website.{" "}
-              <u>
-                <a href="https://vercel.com/docs/concepts/analytics/privacy-policy">Privacy policy</a>
-              </u>
-            </small>
+            Slight tweaks on the popup window animation,{" "}
+            <u
+              onClick={() =>
+                modalsContext.show(
+                  {
+                    title: "Comparison",
+                    icon: <Icon i="info" />,
+                    content: <PopupComparison />,
+                  },
+                  colors
+                )
+              }
+            >
+              view comparison
+            </u>
+            ;
+          </label>
+        </li>
+        <li>
+          <label>
+            Fixed footer link to Vercel Analytics&apos;{" "}
+            <u>
+              <a href="https://vercel.com/docs/concepts/analytics/privacy-policy">privacy policy</a>
+            </u>
+            .
           </label>
         </li>
       </ul>

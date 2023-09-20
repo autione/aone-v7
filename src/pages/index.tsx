@@ -46,6 +46,7 @@ export default function Home(props: { posts: { success: boolean; data: Post[] } 
   const featureCodes: { [key: string]: string } = {
     iceCream: ["arrowup", "arrowup", "arrowdown", "arrowdown", "arrowleft", "arrowright", "arrowleft", "arrowright"].join(""),
     senah: "senah",
+    gabs: "gabs",
     aninety: "stop",
     anoventa: "pare",
   };
@@ -405,6 +406,23 @@ export default function Home(props: { posts: { success: boolean; data: Post[] } 
             />
           </div>
         )}
+
+        {features.gabs && (
+          <div className={styles.gabs}>
+            <img src="/images/gabsawa.png" alt="GABSAWA!!!!21@11!!!!@!@!?@!?:2!@?#>21~3ÇM2OPIDWHEQA9U80EWTVR83Q79TRCEQ7UYIEGIUS" />
+            <audio
+              src="/audio/gabs-alarm.mp3"
+              autoPlay
+              onEnded={() => {
+                setFeatures({
+                  ...features,
+                  gabs: false,
+                });
+              }}
+            />
+          </div>
+        )}
+
         {features.aninety && (
           <A90
             brazilMode={false}
@@ -575,7 +593,7 @@ export default function Home(props: { posts: { success: boolean; data: Post[] } 
               with logos being property of their respective owners
             </span>
 
-            <br />
+            {/* <br />
             <br />
 
             <span>
@@ -587,13 +605,16 @@ export default function Home(props: { posts: { success: boolean; data: Post[] } 
               <a href="https://osk.sh/" target="_blank" rel="noreferrer">
                 osk
               </a>
-            </span>
+            </span> */}
+
+            {/* It's kind of my own style convention now, just based off/branched from theirs. */}
+
             <br />
             <small>OneShot reference unintentional</small>
           </details>
           <br />
           <big style={{ color: "#fff" }}>
-            Basic visit data is collected via Vercel Web Analytics. <a href="https://vercel.com/docs/concepts/analytics/privacy-policy">Privacy policy</a>
+            Basic visit data is collected via Vercel Web Analytics. <a href="https://vercel.com/docs/analytics/privacy-policy">Privacy policy</a>
           </big>
         </small>
       </div>

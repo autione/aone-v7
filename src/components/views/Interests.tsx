@@ -29,7 +29,7 @@ export default function InterestsContent() {
 
         <section className={styles.row}>
           <span className={styles.infoCard}>
-            <img src="/assets/minecraft.png" alt="Minecraft" />
+            <img src="/images/games/minecraft.png" alt="Minecraft" />
             <label>Minecraft</label>
 
             <span className={styles.description}>
@@ -37,12 +37,12 @@ export default function InterestsContent() {
 
               <section className={styles.row}>
                 <span className={styles.subInfoCard}>
-                  <img src="/assets/hypixel.png" alt="Hypixel" />
+                  <img src="/images/games/hypixel.png" alt="Hypixel" />
                   <label>Hypixel</label>
                 </span>
 
                 <span className={styles.subInfoCard}>
-                  <img src="/assets/switchcraft.png" alt="SwitchCraft" />
+                  <img src="/images/games/switchcraft.png" alt="SwitchCraft" />
                   <label>SwitchCraft</label>
                 </span>
               </section>
@@ -50,7 +50,7 @@ export default function InterestsContent() {
           </span>
 
           <span className={styles.infoCard}>
-            <img src="/assets/roblox.png" alt="Roblox" />
+            <img src="/images/games/roblox.png" alt="Roblox" />
             <label>Roblox</label>
 
             <span className={styles.description}>
@@ -58,18 +58,18 @@ export default function InterestsContent() {
 
               <section className={styles.row}>
                 <span className={styles.subInfoCard}>
-                  <img src="/assets/doors.png" alt="DOORS" />
+                  <img src="/images/games/doors.png" alt="DOORS" />
                   <label>DOORS</label>
                 </span>
 
                 <span className={styles.subInfoCard}>
-                  <img src="/assets/evade.png" alt="Evade" />
+                  <img src="/images/games/evade.png" alt="Evade" />
                   <label>Evade</label>
                 </span>
 
                 <span className={styles.subInfoCard}>
-                  <img src="/assets/unofficial.png" alt="UNOfficial" />
-                  <label>UNOfficial</label>
+                  <img src="/images/games/sandbox.png" alt="Sandbox" />
+                  <label>Sandbox</label>
                 </span>
               </section>
             </span>
@@ -78,7 +78,7 @@ export default function InterestsContent() {
 
         <section className={styles.row}>
           <span className={styles.infoCard}>
-            <img src="/assets/tetrio.svg" alt="TETR.IO" />
+            <img src="/images/games/tetrio.png" alt="TETR.IO" />
             <label>TETR.IO</label>
 
             <span className={styles.description}>
@@ -87,11 +87,14 @@ export default function InterestsContent() {
           </span>
 
           <span className={styles.infoCard}>
-            <img src="/assets/among_us.png" alt="Among Us" />
-            <label>Among Us</label>
+            <img src="/images/games/osu_lazer.png" alt="osu!" />
+            <label>osu!</label>
 
             <span className={styles.description}>
-              <span className={styles.caption}>I usually prefer to play the Hide and Seek mode, but you might see me on both.</span>
+              <span className={styles.caption}>
+                More specifically, osu!lazer given it has native support for Linux. Came back to playing after some years without seeing it. Also not well
+                skilled here.
+              </span>
             </span>
           </span>
         </section>
@@ -100,14 +103,19 @@ export default function InterestsContent() {
 
         <section className={styles.row}>
           <span className={styles.infoCard}>
-            <img src="/assets/stardew_valley.png" alt="Stardew Valley" />
+            <img src="/images/games/stardew_valley.png" alt="Stardew Valley" />
             <label>Stardew Valley</label>
+          </span>
+
+          <span className={styles.infoCard}>
+            <img src="/images/games/universe_sandbox.png" alt="Universe Sandbox" />
+            <label>Universe Sandbox</label>
           </span>
         </section>
 
         <section className={styles.row}>
           <span className={styles.infoCard}>
-            <img src="/assets/horizon_chase_turbo.jpg" alt="Horizon Chase Turbo" />
+            <img src="/images/games/horizon_chase_turbo.png" alt="Horizon Chase Turbo" />
             <label>Horizon Chase</label>
 
             <span className={styles.description}>
@@ -118,25 +126,23 @@ export default function InterestsContent() {
           </span>
 
           <span className={styles.infoCard}>
-            <img src="/assets/terraria.webp" alt="Terraria" />
+            <img src="/images/games/terraria.png" alt="Terraria" />
             <label>Terraria</label>
           </span>
         </section>
 
         <section className={styles.row}>
           <span className={styles.infoCard}>
-            <img src="/assets/gta.svg" alt="GTA: Grand Theft Auto" />
+            <img src="/images/games/gta.png" alt="GTA: Grand Theft Auto" />
             <label>GTA</label>
 
             <span className={styles.description}>
-              <span className={styles.caption}>
-                I&apos;m mostly on San Andreas and V/Online, though I&apos;m more active on San Andreas and San Andreas&apos; online mods (SA:MP, MTA).
-              </span>
+              <span className={styles.caption}>I&apos;m mostly on San Andreas&apos; multiplayer mods (MTA, SA:MP) and GTA V&apos;s Online.</span>
             </span>
           </span>
 
           <span className={styles.infoCard}>
-            <img src="/assets/garrys_mod.png" alt="Garry's Mod" />
+            <img src="/images/games/garrys_mod.png" alt="Garry's Mod" />
             <label>Garry&apos;s Mod</label>
           </span>
         </section>
@@ -147,19 +153,19 @@ export default function InterestsContent() {
 
         <section className={styles.row}>
           <span className={styles.infoCard}>
-            <img src="/assets/oneshot.png" alt="OneShot" />
+            <img src="/images/games/oneshot.png" alt="OneShot" />
             <label>OneShot</label>
           </span>
 
           <span className={styles.infoCard}>
-            <img src="/assets/deltarune.webp" alt="Deltarune" />
+            <img src="/images/games/deltarune.png" alt="Deltarune" />
             <label>Deltarune</label>
           </span>
         </section>
 
         <section className={styles.row}>
           <span className={styles.infoCard}>
-            <img src="/assets/adofi.png" alt="ADOFI: A Dance of Fire and Ice" />
+            <img src="/images/games/adofi.png" alt="ADOFI: A Dance of Fire and Ice" />
             <label>A Dance of Fire and Ice</label>
           </span>
         </section>
@@ -260,6 +266,36 @@ export default function InterestsContent() {
           </span>
         </section>
 
+        <section className={styles.row}>
+          <span className={styles.infoCard}>
+            <label>AJR</label>
+          </span>
+
+          <span className={styles.infoCard}>
+            <label>The Living Tombstone</label>
+          </span>
+        </section>
+
+        <section className={styles.row}>
+          <span className={styles.infoCard}>
+            <label>bo en</label>
+          </span>
+
+          <span className={styles.infoCard}>
+            <label>LSPLASH</label>
+          </span>
+        </section>
+
+        <section className={styles.row}>
+          <span className={styles.infoCard}>
+            <label>Gareth Coker</label>
+          </span>
+
+          <span className={styles.infoCard}>
+            <label>Laura Shigihara</label>
+          </span>
+        </section>
+
         <p>
           Of course these aren&apos;t the only one artists I listen to, but I&apos;m very &quot;trustworthy&quot; regarding these. If I get engaged with an
           artist and their style, you&apos;re most likely to see me constantly listening to them eventually.
@@ -293,24 +329,24 @@ export default function InterestsContent() {
 
         <section className={styles.row}>
           <span className={styles.infoCard}>
-            <img src="/assets/lemmino.svg" alt="LEMMiNO Logo" />
+            <img src="/images/video/lemmino.png" alt="LEMMiNO Logo" />
             <label>LEMMiNO</label>
           </span>
 
           <span className={styles.infoCard}>
-            <img src="/assets/tom_scott.png" alt="Picture of Tom Scott" />
+            <img src="/images/video/tom_scott.png" alt="Picture of Tom Scott" />
             <label>Tom Scott</label>
           </span>
         </section>
 
         <section className={styles.row}>
           <span className={styles.infoCard}>
-            <img src="/assets/kurzgesagt.png" alt="Kurzgesagt - in a nutshell Logo" />
+            <img src="/images/video/kurzgesagt.png" alt="Kurzgesagt - in a nutshell Logo" />
             <label>Kurzgesagt</label>
           </span>
 
           <span className={styles.infoCard}>
-            <img src="/assets/stuff_made_here.jpg" alt="Stuff Made Here Logo" />
+            <img src="/images/video/stuff_made_here.png" alt="Stuff Made Here Logo" />
             <label>Stuff Made Here</label>
           </span>
         </section>
@@ -318,21 +354,21 @@ export default function InterestsContent() {
         <p>and as well, creators that approach other kind of scientific, logical and curious topics like</p>
 
         <span className={styles.infoCard}>
-          <img src="/assets/manual_do_mundo.jpg" alt="Manual do Mundo Logo" />
+          <img src="/images/video/manual_do_mundo.png" alt="Manual do Mundo Logo" />
           <label>
             Manual do Mundo <small>🇧🇷</small>
           </label>
         </span>
 
         <span className={styles.infoCard}>
-          <img src="/assets/pura_fisica.jpg" alt="Pura Física's Profile Picture" />
+          <img src="/images/video/pura_fisica.png" alt="Pura Física's Profile Picture" />
           <label>
             Pura Física <small>🇧🇷</small>
           </label>
         </span>
 
         <span className={styles.infoCard}>
-          <img src="/assets/estude_matematica.jpg" alt="Estude Matemática Logo" />
+          <img src="/images/video/estude_matematica.png" alt="Estude Matemática Logo" />
           <label>
             Estude Matemática <small>🇧🇷</small>
           </label>
