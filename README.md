@@ -1,3 +1,5 @@
+**⚠ This website and repository won't go under any more changes. I'm currently working on v8 which is intended to be overall better in usability (and also in the code lol). I will keep the repo archived, so you can see how crazy I was while making this website. It's so bad lmao**
+
 <p align="center">
 <img src=".READMEassets/banner.png" alt="AutiOne Website" />
 <img src=".READMEassets/tags.png" alt="Made with Next.js • Uses Firebase" />
